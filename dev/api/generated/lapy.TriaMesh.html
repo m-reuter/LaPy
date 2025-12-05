@@ -1,21 +1,21 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="../../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="lapy.TetMesh" href="lapy.TetMesh.html" /><link rel="prev" title="Meshes" href="../lapy.meshes.html" />
+<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="lapy.TetMesh" href="lapy.TetMesh.html"><link rel="prev" title="Meshes" href="../lapy.meshes.html">
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
         <title>lapy.TriaMesh - LaPy</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/style.css?v=0bd98ae2" />
     
     
@@ -23,8 +23,8 @@
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
@@ -151,14 +151,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -168,8 +164,7 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
@@ -177,8 +172,7 @@
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -186,8 +180,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -195,7 +188,6 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
-  
   
   <span class="sidebar-brand-text">LaPy</span>
   
@@ -206,17 +198,17 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API References</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API References</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current has-children"><a class="reference internal" href="../lapy.meshes.html">Meshes</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Meshes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API References</a><input aria-label="Toggle navigation of API References" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="../lapy.meshes.html">Meshes</a><input aria-label="Toggle navigation of Meshes" checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">lapy.TriaMesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.TetMesh.html">lapy.TetMesh</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../lapy.solver.html">Solver</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Solver</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../lapy.solver.html">Solver</a><input aria-label="Toggle navigation of Solver" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="lapy.Solver.html">lapy.Solver</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../lapy.modules.html">Modules</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../lapy.modules.html">Modules</a><input aria-label="Toggle navigation of Modules" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="lapy.io.html">lapy.io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.shapedna.html">lapy.shapedna</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.heat.html">lapy.heat</a></li>
@@ -227,7 +219,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><input aria-label="Toggle navigation of Tutorials" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/examples/Test_TriaMesh.html">Triangle Mesh</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/examples/Test_TetMesh.html">Tetrahedral Mesh</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/examples/Test_Plot.html">Visualization</a></li>
@@ -236,7 +228,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/examples/Test_TetMesh_Geodesics.html">TetMesh Geodesics</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../changes/index.html">Changelog</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Changelog</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../changes/index.html">Changelog</a><input aria-label="Toggle navigation of Changelog" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../changes/latest.html">Version 1.0</a></li>
 </ul>
 </li>
@@ -266,8 +258,7 @@
   </a>
 </div>
 <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -275,8 +266,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -284,21 +274,21 @@
 <h1>lapy.TriaMesh<a class="headerlink" href="#lapy-triamesh" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="lapy.TriaMesh">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lapy.</span></span><span class="sig-name descname"><span class="pre">TriaMesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fsinfo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lapy.</span></span><span class="sig-name descname"><span class="pre">TriaMesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fsinfo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L9-L1444"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh" title="Link to this definition">¶</a></dt>
 <dd><p>Class representing a triangle mesh.</p>
 <p>This is an efficient implementation of a triangle mesh data structure
 with core functionality using sparse matrices internally (Scipy).</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>v</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/glossary.html#term-array_like" title="(in NumPy v2.2)"><span>array_like</span></a></span></dt><dd><p>List of lists of 3 float coordinates.</p>
+<dt><strong>v</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/glossary.html#term-array_like" title="(in NumPy v2.3)"><span>array_like</span></a></span></dt><dd><p>List of lists of 3 float coordinates.</p>
 </dd>
-<dt><strong>t</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/glossary.html#term-array_like" title="(in NumPy v2.2)"><span>array_like</span></a></span></dt><dd><p>List of lists of 3 int of indices (&gt;= 0) into <code class="docutils literal notranslate"><span class="pre">v</span></code> array
+<dt><strong>t</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/glossary.html#term-array_like" title="(in NumPy v2.3)"><span>array_like</span></a></span></dt><dd><p>List of lists of 3 int of indices (&gt;= 0) into <code class="docutils literal notranslate"><span class="pre">v</span></code> array
 Ordering is important: All triangles should be
 oriented in the same way (counter-clockwise, when
 looking from above).</p>
 </dd>
-<dt><strong>fsinfo</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">dict</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">None</span></code></a></span></dt><dd><p>FreeSurfer Surface Header Info.</p>
+<dt><strong>fsinfo</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">dict</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">None</span></code></a></span></dt><dd><p>FreeSurfer Surface Header Info.</p>
 </dd>
 </dl>
 </dd>
@@ -372,7 +362,7 @@ looking from above).</p>
 <td><p>Compute the length of level sets.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lapy.TriaMesh.level_path" title="lapy.TriaMesh.level_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">level_path</span></code></a>(vfunc, level[, get_tria_idx, ...])</p></td>
-<td><p>Extract levelset as a path.</p></td>
+<td><p>Extract levelset of vfund at specific level as a path of 3D points.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lapy.TriaMesh.map_tfunc_to_vfunc" title="lapy.TriaMesh.map_tfunc_to_vfunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_tfunc_to_vfunc</span></code></a>(tfunc[, weighted])</p></td>
 <td><p>Map tria function to vertices by attributing 1/3 to each vertex of triangle.</p></td>
@@ -445,12 +435,12 @@ looking from above).</p>
 OFF, and VTK file formats.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.area">
-<span class="sig-name descname"><span class="pre">area</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.area" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">area</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L291-L300"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.area" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the total surface area of triangle mesh.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Total surface area.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Total surface area.</p>
 </dd>
 </dl>
 </dd>
@@ -459,12 +449,12 @@ OFF, and VTK file formats.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.avg_edge_length">
-<span class="sig-name descname"><span class="pre">avg_edge_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.avg_edge_length" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">avg_edge_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L357-L370"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.avg_edge_length" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the average edge length of the mesh.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Average edge length.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Average edge length.</p>
 </dd>
 </dl>
 </dd>
@@ -473,7 +463,7 @@ OFF, and VTK file formats.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.boundary_loops">
-<span class="sig-name descname"><span class="pre">boundary_loops</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.boundary_loops" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">boundary_loops</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L491-L542"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.boundary_loops" title="Link to this definition">¶</a></dt>
 <dd><p>Compute a tuple of boundary loops.</p>
 <p>Meshes can have 0 or more boundary loops, which are cycles in the directed
 adjacency graph of the boundary edges.
@@ -482,7 +472,7 @@ vertex (like a figure 8). That case needs debugging.</p>
 <dl class="field-list">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>loops</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>List of lists with boundary loops.</p>
+<dt><strong>loops</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>List of lists with boundary loops.</p>
 </dd>
 </dl>
 </dd>
@@ -491,7 +481,7 @@ vertex (like a figure 8). That case needs debugging.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.centroid">
-<span class="sig-name descname"><span class="pre">centroid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.centroid" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">centroid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L544-L571"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.centroid" title="Link to this definition">¶</a></dt>
 <dd><p>Compute centroid of triangle mesh as a weighted average of triangle centers.</p>
 <p>The weight is determined by the triangle area.
 (This could be done much faster if a FEM lumped mass matrix M is
@@ -500,9 +490,9 @@ with averaging vertices weighted by vertex area)</p>
 <dl class="field-list">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>centroid</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The centroid of the mesh.</p>
+<dt><strong>centroid</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The centroid of the mesh.</p>
 </dd>
-<dt><strong>totalarea</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The total area of the mesh.</p>
+<dt><strong>totalarea</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The total area of the mesh.</p>
 </dd>
 </dl>
 </dd>
@@ -511,14 +501,14 @@ with averaging vertices weighted by vertex area)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.construct_adj_dir_tidx">
-<span class="sig-name descname"><span class="pre">construct_adj_dir_tidx</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.construct_adj_dir_tidx" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">construct_adj_dir_tidx</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L185-L209"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.construct_adj_dir_tidx" title="Link to this definition">¶</a></dt>
 <dd><p>Construct directed adjacency matrix (edge graph) of triangle mesh.</p>
 <p>The directed adjacency matrix contains the triangle indices (only for
 non-manifold meshes). Operates only on triangles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.15.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">csc_matrix</span></code></a></dt><dd><p>Similar to adj_dir, but stores the tria idx+1 instead
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.16.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">csc_matrix</span></code></a></dt><dd><p>Similar to adj_dir, but stores the tria idx+1 instead
 of one in the matrix (allows lookup of vertex to tria).</p>
 </dd>
 </dl>
@@ -528,7 +518,7 @@ of one in the matrix (allows lookup of vertex to tria).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.curvature">
-<span class="sig-name descname"><span class="pre">curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.curvature" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L624-L752"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.curvature" title="Link to this definition">¶</a></dt>
 <dd><p>Compute various curvature values at vertices.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -541,25 +531,25 @@ ACM Transactions on Graphics, 2003.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>smoothit</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Smoothing iterations on vertex functions.</p>
+<dt><strong>smoothit</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Smoothing iterations on vertex functions.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>u_min</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a> of shape (vnum, 3)</span></dt><dd><p>Minimal curvature directions.</p>
+<dt><strong>u_min</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a> of shape (vnum, 3)</span></dt><dd><p>Minimal curvature directions.</p>
 </dd>
-<dt><strong>u_max</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a> of shape (vnum, 3)</span></dt><dd><p>Maximal curvature directions.</p>
+<dt><strong>u_max</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a> of shape (vnum, 3)</span></dt><dd><p>Maximal curvature directions.</p>
 </dd>
-<dt><strong>c_min</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Minimal curvature.</p>
+<dt><strong>c_min</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Minimal curvature.</p>
 </dd>
-<dt><strong>c_max</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Maximal curvature.</p>
+<dt><strong>c_max</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Maximal curvature.</p>
 </dd>
-<dt><strong>c_mean</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Mean curvature <code class="docutils literal notranslate"><span class="pre">(c_min</span> <span class="pre">+</span> <span class="pre">c_max)</span> <span class="pre">/</span> <span class="pre">2.0m</span></code>.</p>
+<dt><strong>c_mean</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Mean curvature <code class="docutils literal notranslate"><span class="pre">(c_min</span> <span class="pre">+</span> <span class="pre">c_max)</span> <span class="pre">/</span> <span class="pre">2.0m</span></code>.</p>
 </dd>
-<dt><strong>c_gauss</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Gauss curvature <code class="docutils literal notranslate"><span class="pre">c_min</span> <span class="pre">*</span> <span class="pre">c_maxm</span></code>.</p>
+<dt><strong>c_gauss</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Gauss curvature <code class="docutils literal notranslate"><span class="pre">c_min</span> <span class="pre">*</span> <span class="pre">c_maxm</span></code>.</p>
 </dd>
-<dt><strong>normals</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a> of shape (vnum, 3)</span></dt><dd><p>Normals.</p>
+<dt><strong>normals</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a> of shape (vnum, 3)</span></dt><dd><p>Normals.</p>
 </dd>
 </dl>
 </dd>
@@ -568,27 +558,27 @@ ACM Transactions on Graphics, 2003.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.curvature_tria">
-<span class="sig-name descname"><span class="pre">curvature_tria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.curvature_tria" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">curvature_tria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L754-L813"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.curvature_tria" title="Link to this definition">¶</a></dt>
 <dd><p>Compute min and max curvature and directions (orthogonal and in tria plane).</p>
 <p>First we compute these values on vertices and then smooth
-there. Finally they get mapped to the trias (averaging) and projected onto
+there. Finally, they get mapped to the trias (averaging) and projected onto
 the triangle plane, and orthogonalized.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>smoothit</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Number of smoothing iterations for curvature computation on vertices.</p>
+<dt><strong>smoothit</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Number of smoothing iterations for curvature computation on vertices.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>u_min</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Min curvature direction on triangles.</p>
+<dt><strong>u_min</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Min curvature direction on triangles.</p>
 </dd>
-<dt><strong>u_max</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Max curvature direction on triangles.</p>
+<dt><strong>u_max</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Max curvature direction on triangles.</p>
 </dd>
-<dt><strong>c_min</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Min curvature on triangles.</p>
+<dt><strong>c_min</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Min curvature on triangles.</p>
 </dd>
-<dt><strong>c_max</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Max curvature on triangles.</p>
+<dt><strong>c_max</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Max curvature on triangles.</p>
 </dd>
 </dl>
 </dd>
@@ -597,27 +587,27 @@ the triangle plane, and orthogonalized.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.edges">
-<span class="sig-name descname"><span class="pre">edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">with_boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.edges" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">with_boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L573-L622"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.edges" title="Link to this definition">¶</a></dt>
 <dd><p>Compute vertices and adjacent triangle ids for each edge.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>with_boundary</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a></span></dt><dd><p>Also work on boundary half edges, default ignore.</p>
+<dt><strong>with_boundary</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a></span></dt><dd><p>Also work on boundary half edges, default ignore.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>vids</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Column array with starting and end vertex for each unique inner edge.</p>
+<dt><strong>vids</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Column array with starting and end vertex for each unique inner edge.</p>
 </dd>
-<dt><strong>tids</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>2 column array with triangle containing the half edge
+<dt><strong>tids</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>2 column array with triangle containing the half edge
 from vids[0,:] to vids [1,:] in first column and the
 neighboring triangle in the second column.</p>
 </dd>
-<dt><strong>bdrvids</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>If with_boundary is true: 2 column array with each
+<dt><strong>bdrvids</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>If with_boundary is true: 2 column array with each
 boundary half-edge.</p>
 </dd>
-<dt><strong>bdrtids</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>If with_boundary is true: 1 column array with the
+<dt><strong>bdrtids</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>If with_boundary is true: 1 column array with the
 associated triangle to each boundary edge.</p>
 </dd>
 </dl>
@@ -627,7 +617,7 @@ associated triangle to each boundary edge.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.euler">
-<span class="sig-name descname"><span class="pre">euler</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.euler" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">euler</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L248-L265"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.euler" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the Euler Characteristic.</p>
 <p>The Euler characteristic is the number of vertices minus the number
 of edges plus the number of triangles  (= #V - #E + #T). For example,
@@ -636,7 +626,7 @@ This operates only on triangles array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></dt><dd><p>Euler characteristic.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></dt><dd><p>Euler characteristic.</p>
 </dd>
 </dl>
 </dd>
@@ -645,12 +635,12 @@ This operates only on triangles array.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.has_free_vertices">
-<span class="sig-name descname"><span class="pre">has_free_vertices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.has_free_vertices" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_free_vertices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L447-L457"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.has_free_vertices" title="Link to this definition">¶</a></dt>
 <dd><p>Check if the vertex list has more vertices than what is used in tria.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p>Whether vertex list has more vertices or not.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p>Whether vertex list has more vertices or not.</p>
 </dd>
 </dl>
 </dd>
@@ -659,13 +649,13 @@ This operates only on triangles array.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.is_closed">
-<span class="sig-name descname"><span class="pre">is_closed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.is_closed" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_closed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L211-L221"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.is_closed" title="Link to this definition">¶</a></dt>
 <dd><p>Check if triangle mesh is closed (no boundary edges).</p>
 <p>Operates only on triangles</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p>True if no boundary edges in adj matrix.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p>True if no boundary edges in adj matrix.</p>
 </dd>
 </dl>
 </dd>
@@ -674,13 +664,13 @@ This operates only on triangles array.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.is_manifold">
-<span class="sig-name descname"><span class="pre">is_manifold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.is_manifold" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_manifold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L223-L233"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.is_manifold" title="Link to this definition">¶</a></dt>
 <dd><p>Check if triangle mesh is manifold (no edges with &gt;2 triangles).</p>
 <p>Operates only on triangles</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p>True if no edges with &gt; 2 triangles.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p>True if no edges with &gt; 2 triangles.</p>
 </dd>
 </dl>
 </dd>
@@ -689,14 +679,14 @@ This operates only on triangles array.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.is_oriented">
-<span class="sig-name descname"><span class="pre">is_oriented</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.is_oriented" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_oriented</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L235-L246"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.is_oriented" title="Link to this definition">¶</a></dt>
 <dd><p>Check if triangle mesh is oriented.</p>
 <p>True if all triangles are oriented counter-clockwise, when looking from
 above. Operates only on triangles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p>True if <code class="docutils literal notranslate"><span class="pre">max(adj_directed)=1</span></code>.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p>True if <code class="docutils literal notranslate"><span class="pre">max(adj_directed)=1</span></code>.</p>
 </dd>
 </dl>
 </dd>
@@ -705,20 +695,20 @@ above. Operates only on triangles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.level_length">
-<span class="sig-name descname"><span class="pre">level_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.level_length" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">level_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L1124-L1186"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.level_length" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the length of level sets.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Float vector of values at vertices (here only scalar function 1D).</p>
+<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Float vector of values at vertices (here only scalar function 1D).</p>
 </dd>
-<dt><strong>level</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a> | <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Level set value or array of level values.</p>
+<dt><strong>level</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a> | <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Level set value or array of level values.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>length</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a> | <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Length of level set (or array of lengths).</p>
+<dt><strong>length</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a> | <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Length of level set (or array of lengths).</p>
 </dd>
 </dl>
 </dd>
@@ -727,32 +717,64 @@ above. Operates only on triangles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.level_path">
-<span class="sig-name descname"><span class="pre">level_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_tria_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.level_path" title="Link to this definition">¶</a></dt>
-<dd><p>Extract levelset as a path.</p>
-<p>Note: Only works for level sets that represent a single path with
-exactly one start and one endpoint.</p>
+<span class="sig-name descname"><span class="pre">level_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_tria_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L1290-L1444"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.level_path" title="Link to this definition">¶</a></dt>
+<dd><p>Extract levelset of vfund at specific level as a path of 3D points.</p>
+<p>For a given real valued scalar map on the surface mesh (vfunc) this
+function computes the edges that intersect with a given level set (level).
+It then finds the point on each mesh edge where the level set intersects.
+The points are sorted and returned as an ordered array of 3D coordinates
+together with the length of the level set path.</p>
+<p>Note: Only works for level sets that represent a single non-intersecting
+path with exactly one start and one endpoint!</p>
+<p>Additional options: get_tria_idx and get_edges when True will also
+return an array of triangle ids for each path segment, defining the
+triangle i, where the path from i to i+1 passes through (so for a path
+with n points, these will be n-1 triangle ids). Furthermore, an array
+of edge vertex indices of shape (n,2) can be obtained defining the two
+vertices of the intersecting edge in the original mesh for each 3D point
+on the path. A second array is returned, defining the relative position
+of the intersecting point along this edge as a float from 0 (start vertex)
+to 1 (end vertex). This information can, for example, be useful for
+interpolating a second surface map at the new path point coordinates.
+Neither of this information is available when n_points is used to resample
+the path into n_points equidistant new points as the association to edges
+or triangles in the original mesh is lost.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Float vector of values at vertices (here only scalar function 1D).</p>
+<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Float vector of values at vertices (here only scalar function 1D).</p>
 </dd>
-<dt><strong>level</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Level set value.</p>
+<dt><strong>level</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Level set value.</p>
 </dd>
-<dt><strong>get_tria_idx</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a>, default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">False</span></code></a></span></dt><dd><p>Also return a list of triangle indices for each edge, default False.</p>
+<dt><strong>get_tria_idx</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a>, default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">False</span></code></a></span></dt><dd><p>Also return a list of triangle indices for each edge, default False.</p>
 </dd>
-<dt><strong>n_points</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Resample level set into n equidistant points. Cannot be combined
-with get_tria_idx=True.</p>
+<dt><strong>get_edges</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a>, default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">False</span></code></a></span></dt><dd><p>Also return a list of two vertex indices (i,j) for each 3D point and
+a list of the relative position defining the 3D point along that
+edge (i,j) from the original mesh, default False.</p>
+</dd>
+<dt><strong>n_points</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Resample level set into n equidistant points. Cannot be combined
+with get_tria_idx=True nor with get_edges=True.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt>path: <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></dt><dd><p>Array of shape (n,3) containing coordinates of vertices on level path.</p>
+<dt>path: <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></dt><dd><p>Array of shape (n,3) containing 3D coordinates of vertices on level path.</p>
 </dd>
-<dt><strong>length</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Length of level set.</p>
+<dt><strong>length</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Length of level set.</p>
 </dd>
-<dt><strong>tria_idx</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Array of triangle index for each edge segment on the path (length n-1
+<dt><strong>tria_idx</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Array of triangle index for each segment on the path (length n-1
 if path is length n). Will only be returned if get_tria_idx is True.</p>
+</dd>
+<dt><strong>edges_vidxs</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Array of shape (n,2) of vertex indices (i,j) for each 3D point, defining
+the vertices of the original mesh of the edge intersecting the level set
+at this point. Will only be returned if get_edges is True.</p>
+</dd>
+<dt>edges_relpos: <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></dt><dd><p>Array of floats defining the relative position for each 3D point along
+the edges of the original mesh (defined by the two points in edges_vidxs).
+Float value 0 defines first point, and 1 defines end point. So the 3D
+point of the path is computed (1 - relpos) v_i + relpos v_j.
+Will only be returned if get_edges is True.</p>
 </dd>
 </dl>
 </dd>
@@ -761,15 +783,15 @@ if path is length n). Will only be returned if get_tria_idx is True.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.map_tfunc_to_vfunc">
-<span class="sig-name descname"><span class="pre">map_tfunc_to_vfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tfunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weighted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.map_tfunc_to_vfunc" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">map_tfunc_to_vfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tfunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weighted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L1016-L1053"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.map_tfunc_to_vfunc" title="Link to this definition">¶</a></dt>
 <dd><p>Map tria function to vertices by attributing 1/3 to each vertex of triangle.</p>
 <p>Uses vertices and trias.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>tfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Float vector or matrix (#t x N) of values at vertices.</p>
+<dt><strong>tfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Float vector or matrix (#t x N) of values at vertices.</p>
 </dd>
-<dt><strong>weighted</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a>, default=False</span></dt><dd><p>False, weigh only by 1/3, e.g. to compute
+<dt><strong>weighted</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">bool</span></code></a>, default=False</span></dt><dd><p>False, weigh only by 1/3, e.g. to compute
 vertex areas from tria areas
 True, weigh by triangle area / 3, e.g. to
 integrate a function defined on the trias,
@@ -780,7 +802,7 @@ will also yield the vertex areas.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Function on vertices vector or matrix (#v x N).</p>
+<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Function on vertices vector or matrix (#v x N).</p>
 </dd>
 </dl>
 </dd>
@@ -789,19 +811,19 @@ will also yield the vertex areas.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.map_vfunc_to_tfunc">
-<span class="sig-name descname"><span class="pre">map_vfunc_to_tfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfunc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.map_vfunc_to_tfunc" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">map_vfunc_to_tfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfunc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L1055-L1074"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.map_vfunc_to_tfunc" title="Link to this definition">¶</a></dt>
 <dd><p>Map vertex function to triangles by attributing 1/3 to each.</p>
 <p>Uses number of vertices and trias</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Float vector or matrix (#t x N) of values at vertices.</p>
+<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Float vector or matrix (#t x N) of values at vertices.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>tfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Function on trias vector or matrix (#t x N).</p>
+<dt><strong>tfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Function on trias vector or matrix (#t x N).</p>
 </dd>
 </dl>
 </dd>
@@ -810,13 +832,13 @@ will also yield the vertex areas.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.normal_offset_">
-<span class="sig-name descname"><span class="pre">normal_offset_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.normal_offset_" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">normal_offset_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L898-L911"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.normal_offset_" title="Link to this definition">¶</a></dt>
 <dd><p>Move vertices along normal by distance <code class="docutils literal notranslate"><span class="pre">d</span></code>.</p>
 <p>normal_offset(d) moves vertices along normal by distance d</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>d</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a> | <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Move distance.</p>
+<dt><strong>d</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a> | <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Move distance.</p>
 </dd>
 </dl>
 </dd>
@@ -825,14 +847,14 @@ will also yield the vertex areas.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.normalize_">
-<span class="sig-name descname"><span class="pre">normalize_</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.normalize_" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">normalize_</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L815-L821"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.normalize_" title="Link to this definition">¶</a></dt>
 <dd><p>Normalize TriaMesh to unit surface area and centroid at the origin.</p>
 <p>Modifies the vertices.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.orient_">
-<span class="sig-name descname"><span class="pre">orient_</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.orient_" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">orient_</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L913-L1014"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.orient_" title="Link to this definition">¶</a></dt>
 <dd><p>Re-orient triangles of manifold mesh to be consistent.</p>
 <p>Re-orients triangles of manifold mesh to be consistent, so that vertices are
 listed counter-clockwise, when looking from above (outside).</p>
@@ -850,7 +872,7 @@ sign</p></li>
 <dl class="field-list">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>flipped</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Number of trias flipped.</p>
+<dt><strong>flipped</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Number of trias flipped.</p>
 </dd>
 </dl>
 </dd>
@@ -859,12 +881,12 @@ sign</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.read_fssurf">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_fssurf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.read_fssurf" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_fssurf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L67-L81"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.read_fssurf" title="Link to this definition">¶</a></dt>
 <dd><p>Load triangle mesh from FreeSurfer surface geometry file.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to load.</p>
+<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to load.</p>
 </dd>
 </dl>
 </dd>
@@ -879,12 +901,12 @@ sign</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.read_off">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_off</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.read_off" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_off</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L83-L97"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.read_off" title="Link to this definition">¶</a></dt>
 <dd><p>Load triangle mesh from OFF txt file.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to load.</p>
+<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to load.</p>
 </dd>
 </dl>
 </dd>
@@ -899,12 +921,12 @@ sign</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.read_vtk">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.read_vtk" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L99-L113"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.read_vtk" title="Link to this definition">¶</a></dt>
 <dd><p>Load triangle mesh from VTK txt file.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to load.</p>
+<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to load.</p>
 </dd>
 </dl>
 </dd>
@@ -919,14 +941,14 @@ sign</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.refine_">
-<span class="sig-name descname"><span class="pre">refine_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">it</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.refine_" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">refine_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">it</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L862-L896"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.refine_" title="Link to this definition">¶</a></dt>
 <dd><p>Refine the triangle mesh by placing new vertex on each edge midpoint.</p>
 <p>Thus creates 4 similar triangles from one parent triangle.
 Modifies mesh in place.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>it</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Number of iterations.</p>
+<dt><strong>it</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Number of iterations.</p>
 </dd>
 </dl>
 </dd>
@@ -935,7 +957,7 @@ Modifies mesh in place.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.rm_free_vertices_">
-<span class="sig-name descname"><span class="pre">rm_free_vertices_</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.rm_free_vertices_" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rm_free_vertices_</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L823-L860"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.rm_free_vertices_" title="Link to this definition">¶</a></dt>
 <dd><p>Remove unused (free) vertices.</p>
 <p>Free vertices are vertices that are not used in any triangle.
 They can produce problems when constructing, e.g., Laplace matrices.</p>
@@ -943,9 +965,9 @@ They can produce problems when constructing, e.g., Laplace matrices.</p>
 <dl class="field-list">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>vkeep</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Indices (from original list) of kept vertices.</p>
+<dt><strong>vkeep</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Indices (from original list) of kept vertices.</p>
 </dd>
-<dt><strong>vdel</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Indices of deleted (unused) vertices.</p>
+<dt><strong>vdel</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Indices of deleted (unused) vertices.</p>
 </dd>
 </dl>
 </dd>
@@ -954,12 +976,12 @@ They can produce problems when constructing, e.g., Laplace matrices.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.smooth_">
-<span class="sig-name descname"><span class="pre">smooth_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.smooth_" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">smooth_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L1112-L1122"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.smooth_" title="Link to this definition">¶</a></dt>
 <dd><p>Smooth the mesh iteratively in-place.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>n</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Smoothing iterations.</p>
+<dt><strong>n</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Smoothing iterations.</p>
 </dd>
 </dl>
 </dd>
@@ -968,20 +990,20 @@ They can produce problems when constructing, e.g., Laplace matrices.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.smooth_vfunc">
-<span class="sig-name descname"><span class="pre">smooth_vfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.smooth_vfunc" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">smooth_vfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfunc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L1076-L1110"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.smooth_vfunc" title="Link to this definition">¶</a></dt>
 <dd><p>Smooth the mesh or a vertex function iteratively.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Float vector of values at vertices, if empty, use vertex coordinates.</p>
+<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Float vector of values at vertices, if empty, use vertex coordinates.</p>
 </dd>
-<dt><strong>n</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a>, default=1</span></dt><dd><p>Number of iterations for smoothing.</p>
+<dt><strong>n</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a>, default=1</span></dt><dd><p>Number of iterations for smoothing.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Smoothed surface vertex function.</p>
+<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Smoothed surface vertex function.</p>
 </dd>
 </dl>
 </dd>
@@ -990,14 +1012,14 @@ They can produce problems when constructing, e.g., Laplace matrices.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.tria_areas">
-<span class="sig-name descname"><span class="pre">tria_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.tria_areas" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tria_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L267-L289"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.tria_areas" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the area of triangles using Heron’s formula.</p>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Heron%27s_formula">Heron’s formula</a>
 computes the area of a triangle by using the three edge lengths.</p>
 <dl class="field-list">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>areas</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Array with areas of each triangle.</p>
+<dt><strong>areas</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Array with areas of each triangle.</p>
 </dd>
 </dl>
 </dd>
@@ -1006,13 +1028,13 @@ computes the area of a triangle by using the three edge lengths.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.tria_normals">
-<span class="sig-name descname"><span class="pre">tria_normals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.tria_normals" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tria_normals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L372-L397"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.tria_normals" title="Link to this definition">¶</a></dt>
 <dd><p>Compute triangle normals.</p>
 <p>Ordering of triangles is important: counterclockwise when looking.</p>
 <dl class="field-list">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>n</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a> of shape (n_triangles, 3)</span></dt><dd><p>Triangle normals.</p>
+<dt><strong>n</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a> of shape (n_triangles, 3)</span></dt><dd><p>Triangle normals.</p>
 </dd>
 </dl>
 </dd>
@@ -1021,7 +1043,7 @@ computes the area of a triangle by using the three edge lengths.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.tria_qualities">
-<span class="sig-name descname"><span class="pre">tria_qualities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.tria_qualities" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tria_qualities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L459-L489"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.tria_qualities" title="Link to this definition">¶</a></dt>
 <dd><p>Compute triangle quality for each triangle in mesh where.</p>
 <p>q = 4 sqrt(3) A / (e1^2 + e2^2 + e3^2 )
 where A is the triangle area and ei the edge length of the three edges.
@@ -1034,7 +1056,7 @@ R.E. Bank, PLTMG …, Frontiers in Appl. Math. (7), 1990.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></dt><dd><p>Array with triangle qualities.</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></dt><dd><p>Array with triangle qualities.</p>
 </dd>
 </dl>
 </dd>
@@ -1043,12 +1065,12 @@ R.E. Bank, PLTMG …, Frontiers in Appl. Math. (7), 1990.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.vertex_areas">
-<span class="sig-name descname"><span class="pre">vertex_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.vertex_areas" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">vertex_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L337-L355"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.vertex_areas" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the area associated to each vertex (1/3 of one-ring trias).</p>
 <dl class="field-list">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>vareas</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Array of vertex areas.</p>
+<dt><strong>vareas</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Array of vertex areas.</p>
 </dd>
 </dl>
 </dd>
@@ -1057,12 +1079,12 @@ R.E. Bank, PLTMG …, Frontiers in Appl. Math. (7), 1990.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.vertex_degrees">
-<span class="sig-name descname"><span class="pre">vertex_degrees</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.vertex_degrees" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">vertex_degrees</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L326-L335"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.vertex_degrees" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the vertex degrees (number of edges at each vertex).</p>
 <dl class="field-list">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>vdeg</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Array of vertex degrees.</p>
+<dt><strong>vdeg</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a></span></dt><dd><p>Array of vertex degrees.</p>
 </dd>
 </dl>
 </dd>
@@ -1071,7 +1093,7 @@ R.E. Bank, PLTMG …, Frontiers in Appl. Math. (7), 1990.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.vertex_normals">
-<span class="sig-name descname"><span class="pre">vertex_normals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.vertex_normals" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">vertex_normals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L399-L445"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.vertex_normals" title="Link to this definition">¶</a></dt>
 <dd><p>Compute vertex normals.</p>
 <dl class="simple">
 <dt>get_vertex_normals(v,t) computes vertex normals</dt><dd><p>Triangle normals around each vertex are averaged, weighted
@@ -1083,7 +1105,7 @@ at the triangle from above.</p>
 <dl class="field-list">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>n</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a> of shape (n_triangles, 3)</span></dt><dd><p>Vertex normals.</p>
+<dt><strong>n</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">array</span></code></a> of shape (n_triangles, 3)</span></dt><dd><p>Vertex normals.</p>
 </dd>
 </dl>
 </dd>
@@ -1092,12 +1114,12 @@ at the triangle from above.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.volume">
-<span class="sig-name descname"><span class="pre">volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.volume" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L302-L324"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.volume" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the volume of closed triangle mesh, summing tetrahedra at origin.</p>
 <dl class="field-list">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>vol</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Total enclosed volume.</p>
+<dt><strong>vol</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Total enclosed volume.</p>
 </dd>
 </dl>
 </dd>
@@ -1106,12 +1128,12 @@ at the triangle from above.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.write_fssurf">
-<span class="sig-name descname"><span class="pre">write_fssurf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.write_fssurf" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_fssurf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L125-L133"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.write_fssurf" title="Link to this definition">¶</a></dt>
 <dd><p>Save as Freesurfer Surface Geometry file (wrap Nibabel).</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to save to.</p>
+<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to save to.</p>
 </dd>
 </dl>
 </dd>
@@ -1120,12 +1142,12 @@ at the triangle from above.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="lapy.TriaMesh.write_vtk">
-<span class="sig-name descname"><span class="pre">write_vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lapy.TriaMesh.write_vtk" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/tria_mesh.py#L115-L123"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.TriaMesh.write_vtk" title="Link to this definition">¶</a></dt>
 <dd><p>Save as VTK file.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to save to.</p>
+<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to save to.</p>
 </dd>
 </dl>
 </dd>
@@ -1248,10 +1270,10 @@ at the triangle from above.</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=6efca38a"></script>
+</div><script src="../../_static/documentation_options.js?v=48c8187c"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
