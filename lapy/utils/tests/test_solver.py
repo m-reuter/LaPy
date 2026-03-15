@@ -1,4 +1,4 @@
-"""Tests for Solver.poisson — backward compatibility and 2-D rhs support."""
+"""Tests for Solver.eigs and Solver.poisson — parameters and 2-D rhs support."""
 
 import numpy as np
 import pytest
@@ -10,6 +10,31 @@ from ...tria_mesh import TriaMesh
 @pytest.fixture
 def tria_mesh():
     return TriaMesh.read_off("data/square-mesh.off")
+
+
+# ---------------------------------------------------------------------------
+# eigs — new parameter and sorting tests
+# ---------------------------------------------------------------------------
+
+
+def test_eigs_rng_int_reproducible(tria_mesh):
+    """Two calls with the same integer rng seed must return identical results."""
+    fem = Solver(tria_mesh, lump=True)
+    evals1, evecs1 = fem.eigs(k=4, rng=42)
+    evals2, evecs2 = fem.eigs(k=4, rng=42)
+    np.testing.assert_array_equal(evals1, evals2)
+    np.testing.assert_array_equal(evecs1, evecs2)
+
+
+def test_eigs_v0_takes_precedence_over_rng(tria_mesh):
+    """Explicit v0 must take precedence over rng."""
+    fem = Solver(tria_mesh, lump=True)
+    v0 = np.random.default_rng(0).standard_normal(len(tria_mesh.v))
+    # Same v0 with different rng seeds must give identical results.
+    evals1, evecs1 = fem.eigs(k=4, v0=v0, rng=0)
+    evals2, evecs2 = fem.eigs(k=4, v0=v0, rng=99)
+    np.testing.assert_array_equal(evals1, evals2)
+    np.testing.assert_array_equal(evecs1, evecs2)
 
 
 def test_poisson_scalar_and_1d_return_1d(tria_mesh):

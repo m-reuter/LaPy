@@ -664,7 +664,15 @@ class Solver:
         b = sparse.csc_matrix((local_b, (i, j)), dtype=dtype)
         return a, b
 
-    def eigs(self, k: int = 10, sigma: float = -0.01) -> tuple[np.ndarray, np.ndarray]:
+    def eigs(
+        self,
+        k: int = 10,
+        sigma: float = -0.01,
+        which: str = "LM",
+        v0: np.ndarray | None = None,
+        mode: str = "normal",
+        rng: int | np.random.Generator | None = None,
+    ) -> tuple[np.ndarray, np.ndarray]:
         """Compute the linear finite-element method Laplace-Beltrami spectrum.
 
         Parameters
@@ -675,21 +683,51 @@ class Solver:
             compute all eigenvectors of a matrix.
         sigma : float, default=-0.01
             Shift value for the shift-invert mode. The solver finds eigenvalues
-            near sigma. Negative values work well for finding smallest eigenvalues.
-            Adjust if convergence issues occur (typically small negative).
+            near ``sigma``. The default small negative value works well for
+            finding the smallest non-negative Laplacian eigenvalues. Adjust if
+            convergence issues occur. The returned eigenvalues are always sorted
+            in ascending order regardless of ``sigma``.
+        which : str, default="LM"
+            Which ``k`` eigenvalues to find. With shift-invert (``sigma`` set),
+            ``"LM"`` selects the ``k`` eigenvalues of the original problem
+            closest to ``sigma`` — this is the standard choice for computing
+            the smallest Laplacian eigenvalues. Other options accepted by
+            ``scipy.sparse.linalg.eigsh`` are ``"SM"``, ``"LA"``, ``"SA"``,
+            and ``"BE"``.
+        v0 : np.ndarray, shape (n_vertices,), optional
+            Starting vector for the ARPACK iteration. Providing a fixed vector
+            makes results reproducible. Takes precedence over ``rng``. If both
+            are ``None``, ARPACK uses its own random starting vector.
+        mode : str, default="normal"
+            Shift-invert mode passed to ``scipy.sparse.linalg.eigsh``.
+            ``"normal"`` is the standard choice for Laplacian spectra.
+            Other valid values are ``"buckling"`` and ``"cayley"``.
+        rng : int or numpy.random.Generator, optional
+            Seed or generator used to build a reproducible starting vector when
+            ``v0`` is ``None``. An integer seed is the most convenient choice,
+            e.g. ``rng=0``. Ignored when ``v0`` is supplied. Note that
+            ``scipy.sparse.linalg.eigsh`` has no native seed parameter, so
+            this is handled by generating ``v0`` internally via
+            ``numpy.random.default_rng(rng)``.
 
         Returns
         -------
         eigenvalues : np.ndarray
-            Array of k eigenvalues, shape (k,). For closed meshes or Neumann
-            boundary condition, ``0`` will be the first eigenvalue (with
-            constant eigenvector).
+            Array of k eigenvalues, shape (k,), sorted in ascending order.
+            For closed meshes or Neumann boundary condition, ``0`` will be
+            the first eigenvalue (with constant eigenvector).
         eigenvectors : np.ndarray
             Array representing the k eigenvectors, shape (n_vertices, k).
             The column ``eigenvectors[:, i]`` is the eigenvector corresponding
             to ``eigenvalues[i]``.
         """
         from scipy.sparse.linalg import LinearOperator, eigsh
+
+        # eigsh has no native seed parameter; derive v0 from rng when needed.
+        if v0 is None and rng is not None:
+            v0 = np.random.default_rng(rng).standard_normal(
+                self.stiffness.shape[0]
+            ).astype(self.stiffness.dtype)
 
         if self.use_cholmod:
             logger.info("Solver: Cholesky decomposition from scikit-sparse cholmod ...")
@@ -711,9 +749,19 @@ class Solver:
                 dtype=self.stiffness.dtype,
             )
         eigenvalues, eigenvectors = eigsh(
-            self.stiffness, k, self.mass, sigma=sigma, OPinv=op_inv
+            self.stiffness,
+            k,
+            self.mass,
+            sigma=sigma,
+            which=which,
+            v0=v0,
+            mode=mode,
+            OPinv=op_inv,
         )
-        return eigenvalues, eigenvectors
+        # eigsh with shift-invert does not guarantee sorted output (especially
+        # for sigma values far from 0). Always sort ascending for consistency.
+        sort_idx = np.argsort(eigenvalues)
+        return eigenvalues[sort_idx], eigenvectors[:, sort_idx]
 
     def poisson(
         self,
