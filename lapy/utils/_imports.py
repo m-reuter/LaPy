@@ -41,7 +41,7 @@ def import_optional_dependency(
         False.
 
     Raises
-    -------
+    ------
     ImportError
         dependency not found; see raise_error
     """
