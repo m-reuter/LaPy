@@ -694,7 +694,7 @@ class Solver:
             the smallest Laplacian eigenvalues. Other options accepted by
             ``scipy.sparse.linalg.eigsh`` are ``"SM"``, ``"LA"``, ``"SA"``,
             and ``"BE"``.
-        v0 : np.ndarray, shape (n_vertices,), optional
+        v0 : np.ndarray of shape (n_vertices,), default=None
             Starting vector for the ARPACK iteration. Providing a fixed vector
             makes results reproducible. Takes precedence over ``rng``. If both
             are ``None``, ARPACK uses its own random starting vector.
@@ -702,7 +702,7 @@ class Solver:
             Shift-invert mode passed to ``scipy.sparse.linalg.eigsh``.
             ``"normal"`` is the standard choice for Laplacian spectra.
             Other valid values are ``"buckling"`` and ``"cayley"``.
-        rng : int or numpy.random.Generator, optional
+        rng : int or numpy.random.Generator, default=None
             Seed or generator used to build a reproducible starting vector when
             ``v0`` is ``None``. An integer seed is the most convenient choice,
             e.g. ``rng=0``. Ignored when ``v0`` is supplied. Note that
