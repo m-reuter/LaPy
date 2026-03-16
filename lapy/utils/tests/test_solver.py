@@ -1,4 +1,4 @@
-"""Tests for Solver.poisson — backward compatibility and 2-D rhs support."""
+"""Tests for Solver.eigs and Solver.poisson — parameters and 2-D rhs support."""
 
 import numpy as np
 import pytest
@@ -10,6 +10,49 @@ from ...tria_mesh import TriaMesh
 @pytest.fixture
 def tria_mesh():
     return TriaMesh.read_off("data/square-mesh.off")
+
+
+# ---------------------------------------------------------------------------
+# Helper
+# ---------------------------------------------------------------------------
+
+
+def _assert_evecs_allclose(evecs1, evecs2, **kwargs):
+    """Assert eigenvectors agree up to a per-column sign flip.
+
+    The eigenspace returned by ARPACK/eigsh is unique only up to sign (and,
+    for degenerate eigenvalues, up to rotation within the subspace). For
+    non-degenerate eigenvalues the per-column dot product detects the sign and
+    aligns evecs2 before the numerical comparison.
+    """
+    signs = np.sign(np.einsum("ij,ij->j", evecs1, evecs2))
+    signs[signs == 0] = 1  # zero dot product: columns are already orthogonal
+    np.testing.assert_allclose(evecs1, evecs2 * signs, **kwargs)
+
+
+# ---------------------------------------------------------------------------
+# eigs — new parameter and sorting tests
+# ---------------------------------------------------------------------------
+
+
+def test_eigs_rng_int_reproducible(tria_mesh):
+    """Two calls with the same integer rng seed must return identical results."""
+    fem = Solver(tria_mesh, lump=True)
+    evals1, evecs1 = fem.eigs(k=4, rng=42)
+    evals2, evecs2 = fem.eigs(k=4, rng=42)
+    np.testing.assert_allclose(evals1, evals2, rtol=1e-12)
+    _assert_evecs_allclose(evecs1, evecs2, rtol=1e-10, atol=1e-12)
+
+
+def test_eigs_v0_takes_precedence_over_rng(tria_mesh):
+    """Explicit v0 must take precedence over rng."""
+    fem = Solver(tria_mesh, lump=True)
+    v0 = np.random.default_rng(0).standard_normal(len(tria_mesh.v))
+    # Same v0 with different rng seeds must give identical results.
+    evals1, evecs1 = fem.eigs(k=4, v0=v0, rng=0)
+    evals2, evecs2 = fem.eigs(k=4, v0=v0, rng=99)
+    np.testing.assert_allclose(evals1, evals2, rtol=1e-12)
+    _assert_evecs_allclose(evecs1, evecs2, rtol=1e-10, atol=1e-12)
 
 
 def test_poisson_scalar_and_1d_return_1d(tria_mesh):
