@@ -1,15 +1,20 @@
 import importlib
+import inspect
 import logging
 import sys
 
 import numpy as np
 from scipy import sparse
+from scipy.sparse.linalg import eigsh as _eigsh
 
 from .tet_mesh import TetMesh
 from .tria_mesh import TriaMesh
 from .utils._imports import import_optional_dependency
 
 logger = logging.getLogger(__name__)
+
+# Evaluated once at import time; avoids repeated introspection on every eigs() call.
+_EIGSH_SUPPORTS_RNG = "rng" in inspect.signature(_eigsh).parameters
 
 class Solver:
     """FEM solver for Laplace Eigenvalue and Poisson Equation.
@@ -706,11 +711,11 @@ class Solver:
             Seed or generator used to produce a reproducible starting vector
             when ``v0`` is ``None``. An integer seed is the most convenient
             choice, e.g. ``rng=0``.
-            On scipy >= 1.17 both ``v0`` and ``rng`` are forwarded directly to
-            ``scipy.sparse.linalg.eigsh``, which owns all consistency checking.
-            On older scipy versions the behaviour is replicated locally:
-            ``numpy.random.default_rng(rng)`` is used to generate a starting
-            vector with ``uniform(-1, 1)`` (matching scipy's own
+            When ``scipy.sparse.linalg.eigsh`` exposes an ``rng`` parameter,
+            both ``v0`` and ``rng`` are forwarded directly to it, which owns
+            all consistency checking. Otherwise the behaviour is replicated
+            locally: ``numpy.random.default_rng(rng)`` is used to generate a
+            starting vector with ``uniform(-1, 1)`` (matching scipy's own
             initialisation); ``rng`` is ignored when ``v0`` is provided.
 
         Returns
@@ -725,17 +730,15 @@ class Solver:
             The column ``eigenvectors[:, i]`` is the eigenvector corresponding
             to ``eigenvalues[i]``.
         """
-        import inspect
+        from scipy.sparse.linalg import LinearOperator
 
-        from scipy.sparse.linalg import LinearOperator, eigsh
-
-        if "rng" in inspect.signature(eigsh).parameters:
-            # scipy >= 1.17: pass v0 and rng verbatim; eigsh owns all
-            # consistency checking (e.g. v0 takes precedence over rng).
+        if _EIGSH_SUPPORTS_RNG:
+            # eigsh supports rng natively: pass v0 and rng verbatim and let
+            # eigsh own all consistency checking (v0 takes precedence over rng).
             start_kwargs: dict = {"v0": v0, "rng": rng}
         else:
-            # scipy < 1.17: replicate eigsh's rng behaviour locally.
-            # Only generate v0 when it is not already provided.
+            # eigsh has no rng parameter: replicate its behaviour locally.
+            # Only generate v0 from rng when no explicit v0 is provided.
             if v0 is None and rng is not None:
                 v0 = np.random.default_rng(rng).uniform(
                     -1.0, 1.0, self.stiffness.shape[0]
@@ -761,7 +764,7 @@ class Solver:
                 shape=self.stiffness.shape,
                 dtype=self.stiffness.dtype,
             )
-        eigenvalues, eigenvectors = eigsh(
+        eigenvalues, eigenvectors = _eigsh(
             self.stiffness,
             k,
             self.mass,
