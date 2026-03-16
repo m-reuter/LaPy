@@ -696,38 +696,51 @@ class Solver:
             and ``"BE"``.
         v0 : np.ndarray of shape (n_vertices,), default=None
             Starting vector for the ARPACK iteration. Providing a fixed vector
-            makes results reproducible. Takes precedence over ``rng``. If both
-            are ``None``, ARPACK uses its own random starting vector.
+            makes results reproducible. If ``None``, ARPACK uses a random
+            starting vector seeded by ``rng``.
         mode : str, default="normal"
             Shift-invert mode passed to ``scipy.sparse.linalg.eigsh``.
             ``"normal"`` is the standard choice for Laplacian spectra.
             Other valid values are ``"buckling"`` and ``"cayley"``.
         rng : int or numpy.random.Generator, default=None
-            Seed or generator used to build a reproducible starting vector when
-            ``v0`` is ``None``. An integer seed is the most convenient choice,
-            e.g. ``rng=0``. Ignored when ``v0`` is supplied. Note that
-            ``scipy.sparse.linalg.eigsh`` has no native seed parameter, so
-            this is handled by generating ``v0`` internally via
-            ``numpy.random.default_rng(rng)``.
+            Seed or generator used to produce a reproducible starting vector
+            when ``v0`` is ``None``. An integer seed is the most convenient
+            choice, e.g. ``rng=0``.
+            On scipy >= 1.17 both ``v0`` and ``rng`` are forwarded directly to
+            ``scipy.sparse.linalg.eigsh``, which owns all consistency checking.
+            On older scipy versions the behaviour is replicated locally:
+            ``numpy.random.default_rng(rng)`` is used to generate a starting
+            vector with ``uniform(-1, 1)`` (matching scipy's own
+            initialisation); ``rng`` is ignored when ``v0`` is provided.
 
         Returns
         -------
         eigenvalues : np.ndarray
             Array of k eigenvalues, shape (k,), sorted in ascending order.
-            For closed meshes or Neumann boundary condition, ``0`` will be
-            the first eigenvalue (with constant eigenvector).
+            For closed meshes or Neumann boundary condition with the default
+            small negative ``sigma``, ``0`` will be the first eigenvalue
+            (with constant eigenvector).
         eigenvectors : np.ndarray
             Array representing the k eigenvectors, shape (n_vertices, k).
             The column ``eigenvectors[:, i]`` is the eigenvector corresponding
             to ``eigenvalues[i]``.
         """
+        import inspect
+
         from scipy.sparse.linalg import LinearOperator, eigsh
 
-        # eigsh has no native seed parameter; derive v0 from rng when needed.
-        if v0 is None and rng is not None:
-            v0 = np.random.default_rng(rng).standard_normal(
-                self.stiffness.shape[0]
-            ).astype(self.stiffness.dtype)
+        if "rng" in inspect.signature(eigsh).parameters:
+            # scipy >= 1.17: pass v0 and rng verbatim; eigsh owns all
+            # consistency checking (e.g. v0 takes precedence over rng).
+            start_kwargs: dict = {"v0": v0, "rng": rng}
+        else:
+            # scipy < 1.17: replicate eigsh's rng behaviour locally.
+            # Only generate v0 when it is not already provided.
+            if v0 is None and rng is not None:
+                v0 = np.random.default_rng(rng).uniform(
+                    -1.0, 1.0, self.stiffness.shape[0]
+                ).astype(self.stiffness.dtype)
+            start_kwargs = {"v0": v0}
 
         if self.use_cholmod:
             logger.info("Solver: Cholesky decomposition from scikit-sparse cholmod ...")
@@ -754,9 +767,9 @@ class Solver:
             self.mass,
             sigma=sigma,
             which=which,
-            v0=v0,
             mode=mode,
             OPinv=op_inv,
+            **start_kwargs,
         )
         # eigsh with shift-invert does not guarantee sorted output (especially
         # for sigma values far from 0). Always sort ascending for consistency.
