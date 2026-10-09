@@ -80,7 +80,7 @@ def test_is_manifold(tria_mesh_fixture):
 
 def test_pinch_vertex_between_two_tetrahedra():
     """
-    Two closed tetrahedra that share only a vertex have two edges per triangle
+    Two closed tetrahedra that share only a vertex have two triangles per edge
     everywhere but are not manifold; splitting the vertex separates them.
     """
     mesh = _two_tetrahedra()
