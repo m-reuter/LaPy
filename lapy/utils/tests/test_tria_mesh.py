@@ -83,12 +83,7 @@ def test_pinch_vertex_between_two_tetrahedra():
     Two closed tetrahedra that share only a vertex have two edges per triangle
     everywhere but are not manifold; splitting the vertex separates them.
     """
-    v1 = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]], dtype=float)
-    t1 = np.array([[0, 2, 1], [0, 1, 3], [0, 3, 2], [1, 2, 3]])
-    # second tetrahedron mirrored through the shared vertex 0
-    v = np.vstack((v1, -v1[1:]))
-    t2 = np.where(t1 == 0, 0, t1 + 3)
-    mesh = TriaMesh(v, np.vstack((t1, t2[:, ::-1])))
+    mesh = _two_tetrahedra()
     assert np.max(mesh.adj_sym.data) == 2
     assert not mesh.is_manifold()
     np.testing.assert_array_equal(mesh.pinch_vertices(), [0])
@@ -120,13 +115,11 @@ def test_pinch_vertex_on_boundary():
     assert sorted(len(loop) for loop in loops) == [3, 3]
 
 
-def test_pinch_vertex_at_saddle_of_sublevel_set():
+def _torus(n=40, m=16, big_r=3.0, small_r=1.0):
     """
-    Cutting a standing torus at the height of the saddle under its hole keeps
-    a cup whose boundary is a figure 8 through the saddle vertex; splitting
-    the vertex turns it into one simple boundary loop around a disk.
+    Quad-grid torus standing upright: axis along y, hole visible along y.
+    Vertex i * m + j sits at angle i around the axis and angle j around the tube.
     """
-    n, m, big_r, small_r = 40, 16, 3.0, 1.0
     i, j = np.meshgrid(np.arange(n), np.arange(m), indexing="ij")
     u = 2 * np.pi * i / n
     w = 2 * np.pi * j / m
@@ -143,6 +136,27 @@ def test_pinch_vertex_at_saddle_of_sublevel_set():
     c = (((i + 1) % n) * m + (j + 1) % m).ravel()
     d = (i * m + (j + 1) % m).ravel()
     t = np.vstack((np.column_stack((a, b, c)), np.column_stack((a, c, d))))
+    return v, t
+
+
+def _two_tetrahedra():
+    """Two closed tetrahedra sharing only vertex 0."""
+    v1 = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]], dtype=float)
+    t1 = np.array([[0, 2, 1], [0, 1, 3], [0, 3, 2], [1, 2, 3]])
+    # second tetrahedron mirrored through the shared vertex 0
+    v = np.vstack((v1, -v1[1:]))
+    t2 = np.where(t1 == 0, 0, t1 + 3)
+    return TriaMesh(v, np.vstack((t1, t2[:, ::-1])))
+
+
+def test_pinch_vertex_at_saddle_of_sublevel_set():
+    """
+    Cutting a standing torus at the height of the saddle under its hole keeps
+    a cup whose boundary is a figure 8 through the saddle vertex; splitting
+    the vertex turns it into one simple boundary loop around a disk.
+    """
+    big_r, small_r = 3.0, 1.0
+    v, t = _torus(big_r=big_r, small_r=small_r)
     below = v[:, 2] <= -(big_r - small_r) + 1e-9
     mesh = TriaMesh(v, t[np.all(below[t], axis=1)])
     mesh.rm_free_vertices_()
@@ -154,6 +168,71 @@ def test_pinch_vertex_at_saddle_of_sublevel_set():
     mesh.split_pinch_vertices_()
     assert len(mesh.boundary_loops()) == 1
     assert mesh.euler() == 1
+    assert mesh.genus() == 0
+
+
+def test_genus():
+    """
+    Genus of closed and open surfaces, with one or several components.
+    """
+    v, t = _torus()
+    assert TriaMesh(v, t).genus() == 1
+    # a torus with a hole still has genus 1
+    assert TriaMesh(v, t[1:]).genus() == 1
+    # two disjoint tori and an unused vertex
+    v2 = np.vstack((v, v + [10, 0, 0], [[50, 0, 0]]))
+    assert TriaMesh(v2, np.vstack((t, t + len(v)))).genus() == 2
+    mesh = _two_tetrahedra()
+    with pytest.raises(ValueError):
+        mesh.genus()
+    mesh.split_pinch_vertices_()
+    assert mesh.genus() == 0
+
+
+def test_cut_torus_along_meridian():
+    """
+    Cutting a torus along a closed loop around its tube leaves a tube with
+    two boundary loops of the same length, one per side of the cut.
+    """
+    n, m = 40, 16
+    v, t = _torus(n, m)
+    mesh = TriaMesh(v, t)
+    meridian = np.arange(m)
+    source = mesh.cut_(np.column_stack((meridian, np.roll(meridian, -1))))
+    np.testing.assert_array_equal(np.sort(source), meridian)
+    np.testing.assert_allclose(mesh.v[n * m :], mesh.v[source])
+    assert mesh.is_manifold()
+    assert mesh.is_oriented()
+    assert mesh.connected_components()[0] == 1
+    assert sorted(len(loop) for loop in mesh.boundary_loops()) == [m, m]
+    assert mesh.genus() == 0
+
+
+def test_cut_along_open_path():
+    """
+    Cutting along an open path splits only its inner vertices and opens one
+    boundary loop around the path; the genus does not change.
+    """
+    v, t = _torus()
+    mesh = TriaMesh(v, t)
+    source = mesh.cut_(np.array([[0, 1], [2, 1]]))
+    np.testing.assert_array_equal(source, [1])
+    loops = mesh.boundary_loops()
+    assert len(loops) == 1
+    assert sorted(loops[0]) == sorted([0, 1, 2, len(v)])
+    assert mesh.genus() == 1
+
+
+def test_cut_keeps_pinch_vertices_away_from_the_cut():
+    """
+    Only vertices on the cut are split; a pinch vertex elsewhere stays.
+    """
+    mesh = _two_tetrahedra()
+    source = mesh.cut_(np.array([[1, 2], [2, 3]]))
+    np.testing.assert_array_equal(source, [2])
+    np.testing.assert_array_equal(mesh.pinch_vertices(), [0])
+    with pytest.raises(ValueError):
+        mesh.cut_(np.array([[1, 5]]))
 
 
 def test_edge_with_three_triangles():

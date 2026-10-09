@@ -179,17 +179,22 @@ def _reduce_edges_to_path(
     return (paths, edge_idxs) if get_edge_idx else paths
 
 
-def _vertex_fans(t: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+def _vertex_fans(
+    t: np.ndarray, cut_edges: np.ndarray | None = None
+) -> tuple[np.ndarray, np.ndarray]:
     """Group the triangle corners around each vertex into fans.
 
     Two corners at the same vertex belong to the same fan when their triangles
-    share an edge at that vertex. Triangles that repeat a vertex index are
-    ignored.
+    share an edge at that vertex that is not a cut edge. Triangles that repeat
+    a vertex index are ignored.
 
     Parameters
     ----------
     t : np.ndarray
         Triangle array of shape (n_triangles, 3).
+    cut_edges : np.ndarray or None, default=None
+        Vertex pairs of shape (n_edges, 2), in any order, of edges that do not
+        connect fans.
 
     Returns
     -------
@@ -211,6 +216,10 @@ def _vertex_fans(t: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     # an edge with more than two triangles into one fan
     order = np.argsort(key, kind="stable")
     same = key[order[1:]] == key[order[:-1]]
+    if cut_edges is not None:
+        ce = np.asarray(cut_edges, dtype=np.int64).reshape(-1, 2)
+        cut_key = np.minimum(ce[:, 0], ce[:, 1]) * n + np.maximum(ce[:, 0], ce[:, 1])
+        same &= ~np.isin(key[order[1:]], cut_key)
     sa, sb = order[:-1][same], order[1:][same]
     ca = np.column_stack((sa, sa - sa % 3 + (sa + 1) % 3))
     cb = np.column_stack((sb, sb - sb % 3 + (sb + 1) % 3))
@@ -721,6 +730,37 @@ class TriaMesh:
         tnum = np.max(self.t.shape)
         enum = int(self.adj_sym.nnz / 2)
         return vnum - enum + tnum
+
+    def genus(self) -> int:
+        """Compute the genus, summed over all connected components.
+
+        For a manifold mesh with c components and b boundary loops, the Euler
+        characteristic is chi = 2 c - 2 g - b, which gives the total genus g.
+        A sphere and a disk have genus 0, a torus with or without holes cut
+        into it has genus 1. Free vertices are ignored.
+
+        Returns
+        -------
+        int
+            Total genus.
+
+        Raises
+        ------
+        ValueError
+            If the mesh is not manifold, see :meth:`is_manifold`.
+        """
+        if not self.is_manifold():
+            raise ValueError("Genus is only defined for manifold meshes.")
+        used = np.unique(self.t)
+        _, labels = sparse.csgraph.connected_components(self.adj_sym, directed=False)
+        n_comp = len(np.unique(labels[used]))
+        # boundary edges form disjoint loops on a manifold mesh
+        bnd = sparse.triu(self.adj_sym == 1).tocoo()
+        n_loops = 0
+        if bnd.nnz > 0:
+            _, blabels = sparse.csgraph.connected_components(bnd, directed=False)
+            n_loops = len(np.unique(blabels[np.concatenate((bnd.row, bnd.col))]))
+        return (2 * n_comp - n_loops - self.euler()) // 2
 
     def tria_areas(self) -> np.ndarray:
         """Compute the area of triangles using Heron's formula.
@@ -1555,12 +1595,65 @@ class TriaMesh:
         np.ndarray
             Original index of each appended vertex, shape (n_new,).
         """
-        fan, fan_vertex = _vertex_fans(self.t)
+        return self._split_fans_(*_vertex_fans(self.t))
+
+    def cut_(self, edges: np.ndarray) -> np.ndarray:
+        """Cut the mesh open along a set of edges.
+
+        Each vertex on a cut edge gets one copy per fan of triangles, where
+        fans are separated by the cut edges. A closed path of cut edges thus
+        becomes two boundary loops, one on each side, and an open path becomes
+        one boundary loop around it. End points of an open path keep a single
+        vertex, so cutting along a single edge changes nothing. The first fan
+        at each vertex keeps the original vertex, every further fan gets a new
+        vertex at the same position, appended after the existing vertices.
+        Vertices away from the cut are not changed, even pinch vertices.
+
+        Modifies the mesh in-place.
+
+        Parameters
+        ----------
+        edges : np.ndarray
+            Vertex pairs of shape (n_edges, 2), in any order and direction.
+
+        Returns
+        -------
+        np.ndarray
+            Original index of each appended vertex, shape (n_new,).
+
+        Raises
+        ------
+        ValueError
+            If a vertex pair is not an edge of the mesh.
+        """
+        edges = np.asarray(edges, dtype=np.int64).reshape(-1, 2)
+        n = self.v.shape[0]
+        if np.any(edges < 0) or np.any(edges >= n):
+            raise ValueError("Edge vertex index out of range.")
+        if np.any(np.asarray(self.adj_sym[edges[:, 0], edges[:, 1]]).ravel() == 0):
+            raise ValueError("Vertex pair is not an edge of the mesh.")
+        fan, fan_vertex = _vertex_fans(self.t, edges)
+        return self._split_fans_(fan, fan_vertex, np.unique(edges))
+
+    def _split_fans_(
+        self,
+        fan: np.ndarray,
+        fan_vertex: np.ndarray,
+        vertices: np.ndarray | None = None,
+    ) -> np.ndarray:
+        """Give each fan its own vertex, see :meth:`split_pinch_vertices_`.
+
+        Only vertices in ``vertices`` are split if given. Returns the original
+        index of each appended vertex.
+        """
         first = np.zeros(len(fan_vertex), dtype=bool)
         first[np.unique(fan_vertex, return_index=True)[1]] = True
+        if vertices is not None:
+            first |= ~np.isin(fan_vertex, vertices)
         extra = np.flatnonzero(~first)
         if len(extra) == 0:
             return np.array([], dtype=int)
+        # fans that are not split map back to their vertex
         new_index = fan_vertex.copy()
         new_index[extra] = len(self.v) + np.arange(len(extra))
         source = fan_vertex[extra]
