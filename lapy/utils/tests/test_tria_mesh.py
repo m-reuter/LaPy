@@ -171,6 +171,61 @@ def test_pinch_vertex_at_saddle_of_sublevel_set():
     assert mesh.genus() == 0
 
 
+def _twisted_grid(n=20, m=8, closed=True):
+    """
+    Quad grid of n rings with m vertices each, glued back to the first ring
+    with the ring reversed: a Klein bottle if the rings are closed, else a
+    Moebius band. Vertex positions only need to be distinct.
+    """
+    i, j = np.meshgrid(np.arange(n), np.arange(m), indexing="ij")
+    u = 2 * np.pi * i / n
+    w = 2 * np.pi * j / m
+    v = np.column_stack(((3 + np.cos(w)) * np.cos(u), np.sin(w), (3 + np.cos(w)) * np.sin(u))).reshape(-1, 3)
+    jj = np.arange(m) if closed else np.arange(m - 1)
+    i, j = np.meshgrid(np.arange(n), jj, indexing="ij")
+    j1 = (j + 1) % m
+    # the last ring is glued to the first one with j reversed
+    last = i == n - 1
+    i1 = (i + 1) % n
+    jn, jn1 = np.where(last, (m - 1 - j) % m, j), np.where(last, (m - 1 - j1) % m, j1)
+    a, b, c, d = (x.ravel() for x in (i * m + j, i1 * m + jn, i1 * m + jn1, i * m + j1))
+    t = np.vstack((np.column_stack((a, b, c)), np.column_stack((a, c, d))))
+    return v, t
+
+
+def test_orientability():
+    """
+    Orientability does not depend on the current triangle orientation; the
+    genus is refused for non-orientable surfaces.
+    """
+    v, t = _torus()
+    mixed = t.copy()
+    mixed[::3] = mixed[::3, ::-1]
+    mesh = TriaMesh(v, mixed)
+    assert not mesh.is_oriented()
+    assert mesh.is_orientable()
+    assert mesh.genus() == 1
+    for closed in (True, False):
+        mesh = TriaMesh(*_twisted_grid(closed=closed))
+        assert mesh.is_manifold()
+        assert mesh.is_closed() == closed
+        assert mesh.euler() == 0
+        assert not mesh.is_orientable()
+        with pytest.raises(ValueError):
+            mesh.genus()
+
+
+def test_split_keeps_2d_mesh_2d():
+    """
+    Splitting a pinch vertex of a 2D mesh keeps its vertices 2D.
+    """
+    v = np.array([[0, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]], dtype=float)
+    mesh = TriaMesh(v, np.array([[0, 2, 1], [0, 3, 4]]))
+    mesh.split_pinch_vertices_()
+    assert mesh.is_2d()
+    assert mesh.get_vertices(original_dim=True).shape == (6, 2)
+
+
 def test_genus():
     """
     Genus of closed and open surfaces, with one or several components.

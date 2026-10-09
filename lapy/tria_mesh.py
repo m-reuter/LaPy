@@ -712,6 +712,48 @@ class TriaMesh:
         """
         return np.max(self.adj_dir.data) == 1
 
+    def is_orientable(self) -> bool:
+        """Check if every connected component of the mesh can be oriented consistently.
+
+        Unlike :meth:`is_oriented`, this does not depend on the current
+        orientation of the triangles. A Moebius band or a Klein bottle is not
+        orientable. A component is orientable if its orientation double cover,
+        with two copies of every triangle, falls apart into two components.
+        Edges with more than two triangles are not supported.
+
+        Returns
+        -------
+        bool
+            True if all components are orientable.
+
+        Raises
+        ------
+        ValueError
+            If an edge has more than two triangles.
+        """
+        if np.max(self.adj_sym.data) > 2:
+            raise ValueError("Orientability needs at most two triangles per edge.")
+        nt = self.t.shape[0]
+        # sides k of all triangles, from corner k to corner (k + 1) % 3
+        a = self.t.reshape(-1)
+        b = np.roll(self.t, -1, axis=1).reshape(-1)
+        n = self.v.shape[0]
+        key = np.minimum(a, b) * n + np.maximum(a, b)
+        order = np.argsort(key, kind="stable")
+        same = key[order[1:]] == key[order[:-1]]
+        sa, sb = order[:-1][same], order[1:][same]
+        ta, tb = sa // 3, sb // 3
+        # consistent neighbors run along their shared edge in opposite directions
+        consistent = a[sa] != a[sb]
+        # copy 0 of a triangle keeps its orientation, copy 1 is flipped
+        rows = np.concatenate((ta, ta + nt))
+        cols = np.where(np.tile(consistent, 2), np.concatenate((tb, tb + nt)), np.concatenate((tb + nt, tb)))
+        cover = sparse.csr_matrix((np.ones(len(rows)), (rows, cols)), shape=(2 * nt, 2 * nt))
+        n_cover, _ = sparse.csgraph.connected_components(cover, directed=False)
+        faces = sparse.csr_matrix((np.ones(len(ta)), (ta, tb)), shape=(nt, nt))
+        n_comp, _ = sparse.csgraph.connected_components(faces, directed=False)
+        return n_cover == 2 * n_comp
+
     def euler(self) -> int:
         """Compute the Euler Characteristic.
 
@@ -737,7 +779,9 @@ class TriaMesh:
         For a manifold mesh with c components and b boundary loops, the Euler
         characteristic is chi = 2 c - 2 g - b, which gives the total genus g.
         A sphere and a disk have genus 0, a torus with or without holes cut
-        into it has genus 1. Free vertices are ignored.
+        into it has genus 1. Free vertices are ignored. The current orientation
+        of the triangles does not matter, but the mesh must be orientable, see
+        :meth:`is_orientable`.
 
         Returns
         -------
@@ -747,10 +791,13 @@ class TriaMesh:
         Raises
         ------
         ValueError
-            If the mesh is not manifold, see :meth:`is_manifold`.
+            If the mesh is not manifold, see :meth:`is_manifold`, or not
+            orientable, like a Moebius band.
         """
         if not self.is_manifold():
             raise ValueError("Genus is only defined for manifold meshes.")
+        if not self.is_orientable():
+            raise ValueError("Genus is only defined here for orientable meshes.")
         used = np.unique(self.t)
         _, labels = sparse.csgraph.connected_components(self.adj_sym, directed=False)
         n_comp = len(np.unique(labels[used]))
@@ -1659,7 +1706,9 @@ class TriaMesh:
         source = fan_vertex[extra]
         # corners of triangles that repeat a vertex index keep their vertex
         tnew = np.where(fan >= 0, new_index[fan], self.t)
-        self.__init__(np.vstack((self.v, self.v[source])), tnew, self.fsinfo)
+        # keep 2D meshes 2D
+        vertices = self.get_vertices(original_dim=True)
+        self.__init__(np.vstack((vertices, vertices[source])), tnew, self.fsinfo)
         return source
 
     def refine_(self, it: int = 1) -> None:
