@@ -215,15 +215,41 @@ def test_orientability():
             mesh.genus()
 
 
-def test_split_keeps_2d_mesh_2d():
+def test_in_place_operations_keep_2d_meshes_2d():
     """
-    Splitting a pinch vertex of a 2D mesh keeps its vertices 2D.
+    In-place operations that rebuild the mesh keep 2D meshes 2D.
     """
-    v = np.array([[0, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]], dtype=float)
-    mesh = TriaMesh(v, np.array([[0, 2, 1], [0, 3, 4]]))
+    # a square of two triangles, a separate triangle and a free vertex
+    v = np.array([[0, 0], [1, 0], [1, 1], [0, 1], [3, 0], [4, 0], [3, 1], [9, 9]], dtype=float)
+    t = np.array([[0, 1, 2], [0, 3, 2], [4, 5, 6]])
+
+    def check(mesh, n_vertices):
+        assert mesh.is_2d()
+        assert mesh.get_vertices(original_dim=True).shape == (n_vertices, 2)
+
+    mesh = TriaMesh(v, t)
+    mesh.rm_free_vertices_()
+    check(mesh, 7)
+    mesh = TriaMesh(v, t)
+    mesh.orient_()
+    assert mesh.is_oriented()
+    check(mesh, 8)
+    mesh = TriaMesh(v, t)
+    mesh.keep_largest_connected_component_(clean=False)
+    check(mesh, 8)
+    mesh = TriaMesh(v, t[:2])
+    mesh.refine_()
+    # eight vertices and five edge midpoints
+    check(mesh, 13)
+    # the diagonal ends on the boundary, so cutting it separates the two triangles
+    mesh = TriaMesh(v, t[:2])
+    mesh.cut_(np.array([[0, 2]]))
+    check(mesh, 10)
+    # a bow tie, two triangles touching at one vertex
+    bow = np.array([[0, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]], dtype=float)
+    mesh = TriaMesh(bow, np.array([[0, 2, 1], [0, 3, 4]]))
     mesh.split_pinch_vertices_()
-    assert mesh.is_2d()
-    assert mesh.get_vertices(original_dim=True).shape == (6, 2)
+    check(mesh, 6)
 
 
 def test_genus():

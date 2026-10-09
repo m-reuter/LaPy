@@ -365,6 +365,16 @@ class TriaMesh:
         else:
             return self.v
 
+    def _reinit_(self, v: np.ndarray, t: np.ndarray) -> None:
+        """Rebuild the mesh in-place from new vertices and triangles.
+
+        ``v`` holds 3D vertices as in ``self.v``. A mesh created with 2D
+        vertices stays 2D.
+        """
+        if self._is_2d:
+            v = v[:, :2]
+        self.__init__(v, t, self.fsinfo)
+
     @classmethod
     def read_fssurf(cls, filename):
         """Load triangle mesh from FreeSurfer surface geometry file.
@@ -1160,7 +1170,7 @@ class TriaMesh:
             return self.rm_free_vertices_()
         else:
             # Re-init to update adjacency matrices with new t
-            self.__init__(self.v, self.t, self.fsinfo)
+            self._reinit_(self.v, self.t)
             return None, None
 
     def centroid(self) -> tuple[np.ndarray, float]:
@@ -1622,7 +1632,7 @@ class TriaMesh:
         # convert vkeep to index list
         vkeep = np.nonzero(vkeep)[0]
         # set new vertices and tria and re-init adj matrices
-        self.__init__(vnew, tnew, self.fsinfo)
+        self._reinit_(vnew, tnew)
         return vkeep, vdel
 
     def split_pinch_vertices_(self) -> np.ndarray:
@@ -1650,8 +1660,9 @@ class TriaMesh:
         Each vertex on a cut edge gets one copy per fan of triangles, where
         fans are separated by the cut edges. A closed path of cut edges thus
         becomes two boundary loops, one on each side, and an open path becomes
-        one boundary loop around it. End points of an open path keep a single
-        vertex, so cutting along a single edge changes nothing. The first fan
+        one boundary loop around it. Interior end points of an open path keep a
+        single vertex, so cutting along a single interior edge changes nothing,
+        while a cut from boundary to boundary separates the two sides. The first fan
         at each vertex keeps the original vertex, every further fan gets a new
         vertex at the same position, appended after the existing vertices.
         Vertices away from the cut are not changed, even pinch vertices.
@@ -1706,9 +1717,7 @@ class TriaMesh:
         source = fan_vertex[extra]
         # corners of triangles that repeat a vertex index keep their vertex
         tnew = np.where(fan >= 0, new_index[fan], self.t)
-        # keep 2D meshes 2D
-        vertices = self.get_vertices(original_dim=True)
-        self.__init__(np.vstack((vertices, vertices[source])), tnew, self.fsinfo)
+        self._reinit_(np.vstack((self.v, self.v[source])), tnew)
         return source
 
     def refine_(self, it: int = 1) -> None:
@@ -1746,7 +1755,7 @@ class TriaMesh:
             t4 = np.column_stack((e1, e2, e3))
             tnew = np.reshape(np.concatenate((t1, t2, t3, t4), axis=1), (-1, 3))
             # set new vertices and tria and re-init adj matrices
-            self.__init__(vnew, tnew, self.fsinfo)
+            self._reinit_(vnew, tnew)
 
     def normal_offset_(self, d: float) -> None:
         """Move vertices along their normals by distance d.
@@ -1873,14 +1882,14 @@ class TriaMesh:
             idx = idx.reshape(-1)
             tnew = self.t
             tnew[np.ix_(idx, [1, 0])] = tnew[np.ix_(idx, [0, 1])]
-            self.__init__(self.v, tnew, self.fsinfo)
+            self._reinit_(self.v, tnew)
             flipped = idx.sum()
         # for closed meshes, flip orientation on all trias if volume is negative:
         if self.is_closed():
             logger.debug("Closed mesh detected; ensuring global orientation.")
             if self.volume() < 0:
                 tnew[:, [1, 2]] = tnew[:, [2, 1]]
-                self.__init__(self.v, tnew, self.fsinfo)
+                self._reinit_(self.v, tnew)
                 flipped = tnew.shape[0] - flipped
         return flipped
 
