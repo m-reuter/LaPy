@@ -179,6 +179,56 @@ def _reduce_edges_to_path(
     return (paths, edge_idxs) if get_edge_idx else paths
 
 
+def _vertex_fans(t: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Group the triangle corners around each vertex into fans.
+
+    Two corners at the same vertex belong to the same fan when their triangles
+    share an edge at that vertex. Triangles that repeat a vertex index are
+    ignored.
+
+    Parameters
+    ----------
+    t : np.ndarray
+        Triangle array of shape (n_triangles, 3).
+
+    Returns
+    -------
+    fan : np.ndarray
+        Fan index of each triangle corner, shape (n_triangles, 3), and -1 for
+        corners of triangles that repeat a vertex index.
+    fan_vertex : np.ndarray
+        Vertex of each fan, shape (n_fans,).
+    """
+    t = np.asarray(t, dtype=np.int64)
+    valid = (t[:, 0] != t[:, 1]) & (t[:, 1] != t[:, 2]) & (t[:, 2] != t[:, 0])
+    tv = t[valid]
+    # side k of a triangle runs from corner k to corner (k + 1) % 3
+    a = tv.reshape(-1)
+    b = np.roll(tv, -1, axis=1).reshape(-1)
+    n = int(t.max()) + 1
+    key = np.minimum(a, b) * n + np.maximum(a, b)
+    # consecutive sides on the same edge are linked; this chains all sides of
+    # an edge with more than two triangles into one fan
+    order = np.argsort(key, kind="stable")
+    same = key[order[1:]] == key[order[:-1]]
+    sa, sb = order[:-1][same], order[1:][same]
+    ca = np.column_stack((sa, sa - sa % 3 + (sa + 1) % 3))
+    cb = np.column_stack((sb, sb - sb % 3 + (sb + 1) % 3))
+    # match corners at the same vertex, the two sides may run in opposite directions
+    swap = a[ca[:, 0]] != a[cb[:, 0]]
+    cb[swap] = cb[swap][:, ::-1]
+    nc = a.size
+    links = sparse.csr_matrix(
+        (np.ones(ca.size), (ca.reshape(-1), cb.reshape(-1))), shape=(nc, nc)
+    )
+    n_fans, labels = sparse.csgraph.connected_components(links, directed=False)
+    fan_vertex = np.empty(n_fans, dtype=np.int64)
+    fan_vertex[labels] = a
+    fan = np.full(t.shape, -1, dtype=np.int64)
+    fan[valid] = labels.reshape(-1, 3)
+    return fan, fan_vertex
+
+
 class TriaMesh:
     """Class representing a triangle mesh.
 
@@ -587,17 +637,40 @@ class TriaMesh:
         """
         return 1 not in self.adj_sym.data
 
-    def is_manifold(self):
-        """Check if triangle mesh is manifold (no edges with >2 triangles).
+    def is_manifold(self) -> bool:
+        """Check if triangle mesh is manifold.
 
-        Operates only on triangles
+        A triangle mesh is manifold if no edge has more than two triangles and
+        the triangles around each vertex form a single fan, connected across
+        edges at that vertex. A vertex where several fans touch is a pinch
+        vertex, see :meth:`pinch_vertices`. Boundaries are allowed.
+        Operates only on triangles.
 
         Returns
         -------
         bool
-            True if no edges with > 2 triangles.
+            True if no edge has more than two triangles and there are no pinch
+            vertices.
         """
-        return np.max(self.adj_sym.data) <= 2
+        if np.max(self.adj_sym.data) > 2:
+            return False
+        return len(self.pinch_vertices()) == 0
+
+    def pinch_vertices(self) -> np.ndarray:
+        """Find vertices where several fans of triangles touch.
+
+        At a pinch vertex the surrounding triangles fall into more than one
+        group that are not connected across edges at that vertex, as at the
+        common tip of two cones or the centre of a bow tie. Triangles that
+        repeat a vertex index are ignored. Operates only on triangles.
+
+        Returns
+        -------
+        np.ndarray
+            Sorted indices of the pinch vertices.
+        """
+        _, fan_vertex = _vertex_fans(self.t)
+        return np.flatnonzero(np.bincount(fan_vertex) > 1)
 
     def is_boundary(self) -> np.ndarray:
         """Check which vertices are on the boundary.
@@ -886,11 +959,9 @@ class TriaMesh:
 
         Meshes can have 0 or more boundary loops, which are cycles in the directed
         adjacency graph of the boundary edges. The mesh must be manifold and oriented.
-
-        .. note::
-
-            Could fail if loops are connected via a single vertex (like a figure 8).
-            That case needs debugging.
+        A boundary that passes through the same vertex twice, like a figure 8,
+        makes that vertex a pinch vertex; :meth:`split_pinch_vertices_` turns
+        it into simple loops.
 
         Returns
         -------
@@ -901,12 +972,14 @@ class TriaMesh:
         Raises
         ------
         ValueError
-            If mesh is not manifold (edges with more than 2 triangles).
+            If mesh is not manifold (edges with more than 2 triangles or pinch
+            vertices).
             If mesh is not oriented.
         """
         if not self.is_manifold():
             raise ValueError(
-                "Error: tria not manifold (edges with more than 2 triangles)!"
+                "Error: tria not manifold (edges with more than 2 triangles or "
+                "pinch vertices)!"
             )
         if self.is_closed():
             return []
@@ -1464,6 +1537,37 @@ class TriaMesh:
         # set new vertices and tria and re-init adj matrices
         self.__init__(vnew, tnew, self.fsinfo)
         return vkeep, vdel
+
+    def split_pinch_vertices_(self) -> np.ndarray:
+        """Give each fan of a pinch vertex its own copy of the vertex.
+
+        The first fan at each pinch vertex keeps the original vertex, every
+        further fan gets a new vertex at the same position, appended after the
+        existing vertices. This separates cones that touch only at their tips
+        and is the cheapest way to make such a mesh manifold, but it also
+        changes its topology. Edges with more than two triangles are left as
+        they are.
+
+        Modifies the mesh in-place.
+
+        Returns
+        -------
+        np.ndarray
+            Original index of each appended vertex, shape (n_new,).
+        """
+        fan, fan_vertex = _vertex_fans(self.t)
+        first = np.zeros(len(fan_vertex), dtype=bool)
+        first[np.unique(fan_vertex, return_index=True)[1]] = True
+        extra = np.flatnonzero(~first)
+        if len(extra) == 0:
+            return np.array([], dtype=int)
+        new_index = fan_vertex.copy()
+        new_index[extra] = len(self.v) + np.arange(len(extra))
+        source = fan_vertex[extra]
+        # corners of triangles that repeat a vertex index keep their vertex
+        tnew = np.where(fan >= 0, new_index[fan], self.t)
+        self.__init__(np.vstack((self.v, self.v[source])), tnew, self.fsinfo)
+        return source
 
     def refine_(self, it: int = 1) -> None:
         """Refine the triangle mesh by placing new vertex on each edge midpoint.

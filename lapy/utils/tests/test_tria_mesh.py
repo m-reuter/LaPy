@@ -78,6 +78,98 @@ def test_is_manifold(tria_mesh_fixture):
     ), f"Expected is_manifold result {expected_result}, but got {result}"
 
 
+def test_pinch_vertex_between_two_tetrahedra():
+    """
+    Two closed tetrahedra that share only a vertex have two edges per triangle
+    everywhere but are not manifold; splitting the vertex separates them.
+    """
+    v1 = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]], dtype=float)
+    t1 = np.array([[0, 2, 1], [0, 1, 3], [0, 3, 2], [1, 2, 3]])
+    # second tetrahedron mirrored through the shared vertex 0
+    v = np.vstack((v1, -v1[1:]))
+    t2 = np.where(t1 == 0, 0, t1 + 3)
+    mesh = TriaMesh(v, np.vstack((t1, t2[:, ::-1])))
+    assert np.max(mesh.adj_sym.data) == 2
+    assert not mesh.is_manifold()
+    np.testing.assert_array_equal(mesh.pinch_vertices(), [0])
+
+    source = mesh.split_pinch_vertices_()
+    np.testing.assert_array_equal(source, [0])
+    assert mesh.v.shape[0] == 8
+    np.testing.assert_allclose(mesh.v[7], mesh.v[0])
+    assert mesh.is_manifold()
+    assert mesh.is_oriented()
+    assert mesh.connected_components()[0] == 2
+    assert mesh.euler() == 4
+
+
+def test_pinch_vertex_on_boundary():
+    """
+    A bow tie, two triangles touching at one vertex, has boundary loops that
+    meet in a figure 8; boundary_loops rejects it until the vertex is split.
+    """
+    v = np.array([[0, 0, 0], [1, 1, 0], [1, -1, 0], [-1, 1, 0], [-1, -1, 0]])
+    t = np.array([[0, 2, 1], [0, 3, 4]])
+    mesh = TriaMesh(v, t)
+    assert not mesh.is_manifold()
+    with pytest.raises(ValueError):
+        mesh.boundary_loops()
+    mesh.split_pinch_vertices_()
+    assert mesh.is_manifold()
+    loops = mesh.boundary_loops()
+    assert sorted(len(loop) for loop in loops) == [3, 3]
+
+
+def test_pinch_vertex_at_saddle_of_sublevel_set():
+    """
+    Cutting a standing torus at the height of the saddle under its hole keeps
+    a cup whose boundary is a figure 8 through the saddle vertex; splitting
+    the vertex turns it into one simple boundary loop around a disk.
+    """
+    n, m, big_r, small_r = 40, 16, 3.0, 1.0
+    i, j = np.meshgrid(np.arange(n), np.arange(m), indexing="ij")
+    u = 2 * np.pi * i / n
+    w = 2 * np.pi * j / m
+    ring = big_r + small_r * np.cos(w)
+    v = np.column_stack(
+        (
+            (ring * np.cos(u)).ravel(),
+            (small_r * np.sin(w)).ravel(),
+            (ring * np.sin(u)).ravel(),
+        )
+    )
+    a = (i * m + j).ravel()
+    b = (((i + 1) % n) * m + j).ravel()
+    c = (((i + 1) % n) * m + (j + 1) % m).ravel()
+    d = (i * m + (j + 1) % m).ravel()
+    t = np.vstack((np.column_stack((a, b, c)), np.column_stack((a, c, d))))
+    below = v[:, 2] <= -(big_r - small_r) + 1e-9
+    mesh = TriaMesh(v, t[np.all(below[t], axis=1)])
+    mesh.rm_free_vertices_()
+    pinch = mesh.pinch_vertices()
+    assert len(pinch) == 1
+    np.testing.assert_allclose(mesh.v[pinch[0]], [0, 0, -(big_r - small_r)], atol=1e-12)
+    with pytest.raises(ValueError):
+        mesh.boundary_loops()
+    mesh.split_pinch_vertices_()
+    assert len(mesh.boundary_loops()) == 1
+    assert mesh.euler() == 1
+
+
+def test_edge_with_three_triangles():
+    """
+    An edge with three triangles makes the mesh non-manifold; its triangles
+    form one fan at both end points, so there is no pinch vertex to split.
+    """
+    v = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1]])
+    t = np.array([[0, 1, 2], [1, 0, 3], [0, 1, 4]])
+    mesh = TriaMesh(v, t)
+    assert not mesh.is_manifold()
+    assert len(mesh.pinch_vertices()) == 0
+    assert len(mesh.split_pinch_vertices_()) == 0
+    assert mesh.v.shape[0] == 5
+
+
 def test_is_oriented(tria_mesh_fixture):
     """
     Testing whether the function is_oriented() returns True
