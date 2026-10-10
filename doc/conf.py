@@ -47,7 +47,6 @@ extensions = [
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
-    "sphinx_issues",
     "nbsphinx",
     "IPython.sphinxext.ipython_console_highlighting",
 ]
@@ -123,9 +122,6 @@ intersphinx_mapping = {
     "sklearn": ("https://scikit-learn.org/stable/", None),
 }
 intersphinx_timeout = 5
-
-# -- sphinx-issues -----------------------------------------------------------
-issues_github_path = gh_url.split("https://github.com/")[-1]
 
 # -- autosectionlabels -------------------------------------------------------
 autosectionlabel_prefix_document = True

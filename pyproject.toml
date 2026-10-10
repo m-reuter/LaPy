@@ -1,8 +1,5 @@
 [build-system]
-requires = [
-    'setuptools >= 61.0.0',
-    'numpy>=2',
-]
+requires = ['setuptools >= 77.0.0']
 build-backend = 'setuptools.build_meta'
 
 [project]
@@ -12,7 +9,7 @@ description = 'A package for differential geometry on meshes (Laplace, FEM)'
 readme = 'README.md'
 license = 'MIT'
 license-files = ['LICENSE']
-requires-python = '>=3.10'
+requires-python = '>=3.11'
 authors = [
     {name = 'Martin Reuter', email = 'martin.reuter@dzne.de'},
 ]
@@ -35,10 +32,10 @@ classifiers = [
     'Operating System :: Unix',
     'Operating System :: MacOS',
     'Programming Language :: Python :: 3 :: Only',
-    'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
     'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
     'Natural Language :: English',
     'Intended Audience :: Science/Research',
 ]
@@ -68,7 +65,6 @@ doc = [
     'sphinx-copybutton',
     'sphinx-design',
     'sphinx-gallery',
-    'sphinx-issues',
     'nbsphinx',
     'IPython', # For syntax highlighting in notebooks
     'ipykernel',
@@ -76,7 +72,6 @@ doc = [
 style = [
     'bibclean',
     'codespell',
-    'pydocstyle[toml]',
     'ruff',
 ]
 test = [
@@ -111,13 +106,6 @@ include-package-data = false
 include = ['lapy*']
 exclude = ['lapy*tests']
 
-[tool.pydocstyle]
-convention = 'numpy'
-ignore-decorators = '(copy_doc|property|.*setter|.*getter|pyqtSlot|Slot)'
-match = '^(?!setup|__init__|test_).*\.py'
-match-dir = '^lapy.*'
-add_ignore = 'D100,D104,D107'
-
 [tool.ruff]
 line-length = 120
 extend-exclude = [
@@ -134,12 +122,22 @@ select = [
     "UP",  # pyupgrade
     "B",   # flake8-bugbear
     "I",   # isort
+    "D",   # pydocstyle
     # "SIM", # flake8-simplify
 ]
+ignore = [
+    "D100",  # missing docstring in public module
+    "D104",  # missing docstring in public package
+    "D107",  # missing docstring in __init__
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
-"examples/*" = ["E501"]   # ignore too long lines in example ipynb
+"examples/*" = ["E501", "D"]   # long lines and no docstrings in example ipynb
+"**/tests/*" = ["D"]
 
 [tool.codespell]
 ignore-words-list = 'coo,daty'

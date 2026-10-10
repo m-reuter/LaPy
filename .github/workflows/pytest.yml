@@ -18,8 +18,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # oldest and newest Python on every OS, the versions in between on ubuntu only
         os: [ubuntu, macos, windows]
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.11", "3.14"]
+        include:
+          - os: ubuntu
+            python-version: "3.12"
+          - os: ubuntu
+            python-version: "3.13"
     name: ${{ matrix.os }} - py${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}-latest
     defaults:
@@ -41,7 +47,7 @@ jobs:
       - name: Run pytest
         run: pytest lapy --cov=lapy --cov-report=xml --cov-config=pyproject.toml
       - name: Upload to codecov
-        if: ${{ matrix.os == 'ubuntu' && matrix.python-version == '3.10' && github.repository == 'Deep-MI/LaPy' }}
+        if: ${{ matrix.os == 'ubuntu' && matrix.python-version == '3.14' && github.repository == 'Deep-MI/LaPy' }}
         uses: codecov/codecov-action@v7
         with:
           files: ./coverage.xml

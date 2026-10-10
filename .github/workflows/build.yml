@@ -14,8 +14,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # a pure Python package: oldest and newest Python on every OS is enough
         os: [ubuntu, macos, windows]
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.11", "3.14"]
     name: ${{ matrix.os }} - py${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}-latest
     defaults:
