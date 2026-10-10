@@ -9,8 +9,6 @@ from datetime import date
 from importlib import import_module
 from typing import Dict, Optional
 
-from sphinx_gallery.sorting import FileNameSortKey
-
 import lapy
 
 # -- project information -----------------------------------------------------
@@ -46,7 +44,6 @@ extensions = [
     "sphinxcontrib.bibtex",
     "sphinx_copybutton",
     "sphinx_design",
-    "sphinx_gallery.gen_gallery",
     "nbsphinx",
     "IPython.sphinxext.ipython_console_highlighting",
 ]
@@ -57,7 +54,6 @@ exclude_patterns = [
     "Thumbs.db",
     ".DS_Store",
     "**.ipynb_checkpoints",
-    "tutorials/examples/README.rst",
 ]
 
 # Sphinx will warn about all references where the target cannot be found.
@@ -65,11 +61,6 @@ nitpicky = True
 nitpick_ignore = []
 
 show_warning_types = True
-suppress_warnings = [
-    # Ignore new warning in Sphinx 7.3.0 while pickling environment:
-    #   WARNING: cannot cache unpickable configuration value: 'sphinx_gallery_conf'
-    "config.cache",
-]
 
 # A list of ignored prefixes for module index sorting.
 modindex_common_prefix = [f"{package}."]
@@ -236,22 +227,6 @@ def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
     url = f"{gh_url}/blob/{branch}/{package}/{fname}#{lines}"
     return url
 
-
-# -- sphinx-gallery ----------------------------------------------------------
-sphinx_gallery_conf = {
-    "backreferences_dir": "generated/backreferences",
-    "doc_module": (f"{package}",),
-    "examples_dirs": ["../examples"],
-    "exclude_implicit_doc": {},  # set
-    "filename_pattern": r"\d{2}_",
-    "gallery_dirs": ["generated/examples"],
-    "line_numbers": False,
-    "plot_gallery": True,
-    "reference_url": {f"{package}": None},
-    "remove_config_comments": True,
-    "show_memory": True,
-    "within_subsection_order": FileNameSortKey,
-}
 
 # -- Pandoc requirement ------------------------------------------------------
 # Note: Pandoc must be installed on the system for nbsphinx to convert notebooks.

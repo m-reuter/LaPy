@@ -58,13 +58,11 @@ chol = [
 doc = [
     'furo!=2023.8.17',
     'matplotlib',
-    'memory-profiler',
     'numpydoc',
     'sphinx>=7.0,!=7.2.*',
     'sphinxcontrib-bibtex',
     'sphinx-copybutton',
     'sphinx-design',
-    'sphinx-gallery',
     'nbsphinx',
     'IPython', # For syntax highlighting in notebooks
     'ipykernel',
@@ -85,9 +83,6 @@ all = [
     'lapy[doc]',
     'lapy[style]',
     'lapy[test]',
-]
-full = [
-    'lapy[all]',
 ]
 
 [project.urls]
