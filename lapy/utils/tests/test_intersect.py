@@ -30,6 +30,24 @@ def test_triangle_pairs():
     assert hit.tolist() == [True, False, False, False, False]
 
 
+def test_thin_sliver_through_large_triangle():
+    """
+    A sliver piercing a much larger triangle is found in either argument
+    order, and random pairs give the same answer in both orders.
+    """
+    a = np.array([[-5, -5, 0], [5, -5, 0], [0, 5, 0]], dtype=float)
+    for width in (1e-1, 1e-5, 1e-9):
+        b = np.array([[0, 0, -1], [0, 0, 1], [width, 0, 1]], dtype=float)
+        assert triangles_intersect(a[None], b[None])[0]
+        assert triangles_intersect(b[None], a[None])[0]
+    rng = np.random.default_rng(0)
+    p = rng.normal(size=(2000, 3, 3))
+    q = rng.normal(size=(2000, 3, 3)) * [1.0, 1.0, 1e-6]
+    hit = triangles_intersect(p, q)
+    assert 0 < hit.sum() < len(hit)
+    np.testing.assert_array_equal(hit, triangles_intersect(q, p))
+
+
 def test_overlapping_copies_intersect():
     """
     Two copies of a torus intersect each other where they overlap, never

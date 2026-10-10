@@ -56,7 +56,8 @@ def triangles_intersect(a: np.ndarray, b: np.ndarray, eps: float = 1e-10) -> np.
     b : np.ndarray
         Corner coordinates of the second triangle of each pair, shape (k, 3, 3).
     eps : float, default=1e-10
-        Distances below ``eps`` times the triangle size count as zero.
+        Distances to the other triangle's plane below ``eps`` times the
+        longest edge of the pair count as zero.
 
     Returns
     -------
@@ -67,17 +68,24 @@ def triangles_intersect(a: np.ndarray, b: np.ndarray, eps: float = 1e-10) -> np.
     b = np.asarray(b, dtype=float)
     na = np.cross(a[:, 1] - a[:, 0], a[:, 2] - a[:, 0])
     nb = np.cross(b[:, 1] - b[:, 0], b[:, 2] - b[:, 0])
-    sb = _plane_distances(b, na, a[:, 0])
-    sa = _plane_distances(a, nb, b[:, 0])
-    size = np.maximum(np.linalg.norm(na, axis=1), np.linalg.norm(nb, axis=1))
-    sa[np.abs(sa) <= eps * size[:, None]] = 0
-    sb[np.abs(sb) <= eps * size[:, None]] = 0
+    # unit normals make the plane values true distances; a degenerate
+    # triangle gets a zero normal and is treated as coplanar, so never hit
+    with np.errstate(divide="ignore", invalid="ignore"):
+        ua = np.nan_to_num(na / np.linalg.norm(na, axis=1, keepdims=True))
+        ub = np.nan_to_num(nb / np.linalg.norm(nb, axis=1, keepdims=True))
+    sb = _plane_distances(b, ua, a[:, 0])
+    sa = _plane_distances(a, ub, b[:, 0])
+    edges = np.concatenate([a - np.roll(a, 1, axis=1), b - np.roll(b, 1, axis=1)], axis=1)
+    tol = eps * np.linalg.norm(edges, axis=2).max(axis=1)
+    sa[np.abs(sa) <= tol[:, None]] = 0
+    sb[np.abs(sb) <= tol[:, None]] = 0
     separated = (
-            np.all(sb > 0, axis=1)
-            | np.all(sb < 0, axis=1)
-            | np.all(sa > 0, axis=1)
-            | np.all(sa < 0, axis=1)
-            | np.all(sa == 0, axis=1)
+        np.all(sb > 0, axis=1)
+        | np.all(sb < 0, axis=1)
+        | np.all(sa > 0, axis=1)
+        | np.all(sa < 0, axis=1)
+        | np.all(sa == 0, axis=1)
+        | np.all(sb == 0, axis=1)
     )
     hit = ~separated
     idx = np.flatnonzero(hit)
