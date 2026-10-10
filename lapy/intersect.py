@@ -46,7 +46,7 @@ def _interval(x: np.ndarray, s: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
 def triangles_intersect(a: np.ndarray, b: np.ndarray, eps: float = 1e-10) -> np.ndarray:
     """Test pairs of triangles for intersection.
 
-    Uses the interval test of Moeller (1997). Pairs that only touch in a
+    Uses the interval test of Moeller [1]_. Pairs that only touch in a
     single point and coplanar pairs are reported as not intersecting.
 
     Parameters
@@ -63,6 +63,11 @@ def triangles_intersect(a: np.ndarray, b: np.ndarray, eps: float = 1e-10) -> np.
     -------
     np.ndarray
         Boolean array of shape (k,), True where the two triangles intersect.
+
+    References
+    ----------
+    .. [1] T. Moeller. A fast triangle-triangle intersection test. Journal of
+       Graphics Tools, 2(2):25-30, 1997. doi:10.1080/10867651.1997.10487472
     """
     a = np.asarray(a, dtype=float)
     b = np.asarray(b, dtype=float)

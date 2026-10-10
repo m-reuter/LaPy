@@ -1,4 +1,4 @@
-"""Isotropic remeshing of triangle meshes after Botsch and Kobbelt (2004).
+"""Isotropic remeshing of triangle meshes after Botsch and Kobbelt.
 
 Each iteration splits long edges, collapses short edges, flips edges towards
 valence 6, smooths tangentially and projects the vertices back onto the input
@@ -21,15 +21,16 @@ def remesh(
 ) -> "TriaMesh":
     """Remesh a triangle mesh to near-equilateral triangles of a given edge length.
 
-    Edges longer than 4/3 of the target are split at their midpoint, and
-    edges shorter than 4/5 of it are collapsed to their midpoint. A collapse
-    is only done if it keeps the topology, creates no edge longer than 4/3 of
+    This follows the remeshing approach of Botsch and Kobbelt [1]_. Edges
+    longer than 4/3 of the target are split at their midpoint, and edges
+    shorter than 4/5 of it are collapsed to their midpoint. A collapse is
+    only done if it keeps the topology, creates no edge longer than 4/3 of
     the target and tilts no triangle by more than 60 degrees. The topology
-    check is the link condition: the two end points of the edge may share no
-    neighbors other than the two vertices opposite the edge. Edges are then
-    flipped where that brings vertex valences closer to 6, and the vertices
-    are smoothed tangentially and projected back onto the input surface.
-    Boundary vertices stay where they are.
+    check is the link condition [2]_: the two end points of the edge may
+    share no neighbors other than the two vertices opposite the edge. Edges
+    are then flipped where that brings vertex valences closer to 6, and the
+    vertices are smoothed tangentially and projected back onto the input
+    surface. Boundary vertices stay where they are.
 
     Parameters
     ----------
@@ -52,6 +53,15 @@ def remesh(
     ------
     ValueError
         If the mesh is not manifold or not oriented.
+
+    References
+    ----------
+    .. [1] M. Botsch and L. Kobbelt. A remeshing approach to multiresolution
+       modeling. In Proceedings of the Eurographics/ACM SIGGRAPH Symposium on
+       Geometry Processing, pages 185-192, 2004. doi:10.1145/1057432.1057457
+    .. [2] T. K. Dey, H. Edelsbrunner, S. Guha and D. V. Nekhayev. Topology
+       preserving edge contraction. Publications de l'Institut Mathematique
+       (Beograd), 66(80):23-45, 1999.
     """
     from .tria_mesh import TriaMesh
 
