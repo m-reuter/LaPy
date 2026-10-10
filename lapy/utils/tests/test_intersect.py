@@ -1,8 +1,8 @@
 import numpy as np
 
-from .test_tria_mesh import _torus
 from ...intersect import self_intersections, triangles_intersect, undo_intersections
 from ...tria_mesh import TriaMesh
+from .test_tria_mesh import _torus
 
 
 def _pushed_through_torus():
