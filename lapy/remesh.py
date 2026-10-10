@@ -52,7 +52,8 @@ def remesh(
     Raises
     ------
     ValueError
-        If the mesh is not manifold or not oriented.
+        If the mesh is not manifold or not oriented, or if the target length
+        is not a finite positive number.
 
     References
     ----------
@@ -74,6 +75,8 @@ def remesh(
     edges, _ = _unique_edges(t0)
     if target_length is None:
         target_length = np.linalg.norm(v0[edges[:, 1]] - v0[edges[:, 0]], axis=1).mean()
+    if not np.isfinite(target_length) or target_length <= 0:
+        raise ValueError(f"target_length must be a finite positive number, got {target_length}.")
     hi, lo = 4.0 / 3.0 * target_length, 4.0 / 5.0 * target_length
     surface = _Projector(v0, t0)
     v, t = v0.copy(), t0.copy()
@@ -136,7 +139,9 @@ class _Projector:
 
     def closest(self, points: np.ndarray, return_tria: bool = False):
         """Return the closest surface points, and their triangles if ``return_tria``."""
-        points = np.asarray(points, dtype=float)
+        points = np.asarray(points, dtype=float).reshape(-1, 3)
+        if len(points) == 0:
+            return (points.copy(), np.empty(0, dtype=np.int64)) if return_tria else points.copy()
         _, idx = self.tree.query(points, k=self.k)
         idx = idx.reshape(len(points), -1)
         best = np.full(len(points), np.inf)
@@ -295,8 +300,6 @@ def _collapse_round(
 ) -> tuple[np.ndarray, np.ndarray, int]:
     """Collapse short edges to their midpoints where the result stays a valid surface."""
     n = len(v)
-    if len(np.unique(t)) <= 4:
-        return v, t, 0
     edges, _, count = _sides(t)
     boundary = _boundary_mask(n, edges, count)
     length = np.linalg.norm(v[edges[:, 1]] - v[edges[:, 0]], axis=1)
@@ -304,9 +307,13 @@ def _collapse_round(
     if len(cand) == 0:
         return v, t, 0
     adj = _adjacency(n, edges)
+    deg = np.bincount(edges.ravel(), minlength=n)
     a, b = edges[cand, 0], edges[cand, 1]
-    # link condition: exactly the two opposite vertices are common neighbors
+    # link condition: exactly the two opposite vertices are common neighbors;
+    # an edge between two vertices of valence 3 that passes it belongs to a
+    # tetrahedron, which would collapse into two copies of one triangle
     keep = np.asarray(adj[a].multiply(adj[b]).sum(axis=1)).ravel() == 2
+    keep &= (deg[a] > 3) | (deg[b] > 3)
     cand, a, b = cand[keep], a[keep], b[keep]
     p = 0.5 * (v[a] + v[b])
     # no new edge longer than hi

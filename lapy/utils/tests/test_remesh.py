@@ -88,6 +88,35 @@ def test_super_triangle_does_not_collapse():
     assert len(new.v) == 4
 
 
+def test_tetrahedron_next_to_another_component():
+    """
+    A tetrahedron cannot be coarsened further, also when the mesh has other
+    components; the sphere next to it coarsens down to a tetrahedron too.
+    """
+    tv = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]], dtype=float) + [5, 0, 0]
+    tt = np.array([[0, 2, 1], [0, 1, 3], [1, 2, 3], [0, 3, 2]])
+    sphere = _irregular_sphere(200)
+    mesh = TriaMesh(np.vstack([sphere.v, tv]), np.vstack([sphere.t, tt + len(sphere.v)]))
+    new = remesh(mesh, target_length=10.0)
+    _assert_closed_surface(new, 0)
+    assert len(new.v) == 8 and new.connected_components()[0] == 2
+
+
+def test_single_triangle():
+    """
+    A mesh without interior vertices is refined along its boundary and keeps
+    its corners and its area.
+    """
+    v = np.array([[0, 0, 0], [4, 0, 0], [0, 4, 0]], dtype=float)
+    mesh = TriaMesh(v, np.array([[0, 1, 2]]))
+    new = remesh(mesh, target_length=1.0)
+    assert len(new.v) > 3 and new.is_manifold() and new.is_oriented()
+    for corner in v:
+        assert np.min(np.linalg.norm(new.v - corner, axis=1)) == 0
+    assert np.isclose(new.area(), 8.0)
+    assert np.all(new.v[:, 2] == 0)
+
+
 def test_boundary_stays_in_place_and_2d_stays_2d():
     """
     Remeshing a jittered 2D grid at half its spacing keeps the boundary
