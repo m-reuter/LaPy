@@ -179,6 +179,65 @@ def _reduce_edges_to_path(
     return (paths, edge_idxs) if get_edge_idx else paths
 
 
+def _vertex_fans(
+    t: np.ndarray, cut_edges: np.ndarray | None = None
+) -> tuple[np.ndarray, np.ndarray]:
+    """Group the triangle corners around each vertex into fans.
+
+    Two corners at the same vertex belong to the same fan when their triangles
+    share an edge at that vertex that is not a cut edge. Triangles that repeat
+    a vertex index are ignored.
+
+    Parameters
+    ----------
+    t : np.ndarray
+        Triangle array of shape (n_triangles, 3).
+    cut_edges : np.ndarray or None, default=None
+        Vertex pairs of shape (n_edges, 2), in any order, of edges that do not
+        connect fans.
+
+    Returns
+    -------
+    fan : np.ndarray
+        Fan index of each triangle corner, shape (n_triangles, 3), and -1 for
+        corners of triangles that repeat a vertex index.
+    fan_vertex : np.ndarray
+        Vertex of each fan, shape (n_fans,).
+    """
+    t = np.asarray(t, dtype=np.int64)
+    valid = (t[:, 0] != t[:, 1]) & (t[:, 1] != t[:, 2]) & (t[:, 2] != t[:, 0])
+    tv = t[valid]
+    # side k of a triangle runs from corner k to corner (k + 1) % 3
+    a = tv.reshape(-1)
+    b = np.roll(tv, -1, axis=1).reshape(-1)
+    n = int(t.max()) + 1
+    key = np.minimum(a, b) * n + np.maximum(a, b)
+    # consecutive sides on the same edge are linked; this chains all sides of
+    # an edge with more than two triangles into one fan
+    order = np.argsort(key, kind="stable")
+    same = key[order[1:]] == key[order[:-1]]
+    if cut_edges is not None:
+        ce = np.asarray(cut_edges, dtype=np.int64).reshape(-1, 2)
+        cut_key = np.minimum(ce[:, 0], ce[:, 1]) * n + np.maximum(ce[:, 0], ce[:, 1])
+        same &= ~np.isin(key[order[1:]], cut_key)
+    sa, sb = order[:-1][same], order[1:][same]
+    ca = np.column_stack((sa, sa - sa % 3 + (sa + 1) % 3))
+    cb = np.column_stack((sb, sb - sb % 3 + (sb + 1) % 3))
+    # match corners at the same vertex, the two sides may run in opposite directions
+    swap = a[ca[:, 0]] != a[cb[:, 0]]
+    cb[swap] = cb[swap][:, ::-1]
+    nc = a.size
+    links = sparse.csr_matrix(
+        (np.ones(ca.size), (ca.reshape(-1), cb.reshape(-1))), shape=(nc, nc)
+    )
+    n_fans, labels = sparse.csgraph.connected_components(links, directed=False)
+    fan_vertex = np.empty(n_fans, dtype=np.int64)
+    fan_vertex[labels] = a
+    fan = np.full(t.shape, -1, dtype=np.int64)
+    fan[valid] = labels.reshape(-1, 3)
+    return fan, fan_vertex
+
+
 class TriaMesh:
     """Class representing a triangle mesh.
 
@@ -305,6 +364,16 @@ class TriaMesh:
             return self.v[:, :2]
         else:
             return self.v
+
+    def _reinit_(self, v: np.ndarray, t: np.ndarray) -> None:
+        """Rebuild the mesh in-place from new vertices and triangles.
+
+        ``v`` holds 3D vertices as in ``self.v``. A mesh created with 2D
+        vertices stays 2D.
+        """
+        if self._is_2d:
+            v = v[:, :2]
+        self.__init__(v, t, self.fsinfo)
 
     @classmethod
     def read_fssurf(cls, filename):
@@ -587,17 +656,40 @@ class TriaMesh:
         """
         return 1 not in self.adj_sym.data
 
-    def is_manifold(self):
-        """Check if triangle mesh is manifold (no edges with >2 triangles).
+    def is_manifold(self) -> bool:
+        """Check if triangle mesh is manifold.
 
-        Operates only on triangles
+        A triangle mesh is manifold if no edge has more than two triangles and
+        the triangles around each vertex form a single fan, connected across
+        edges at that vertex. A vertex where several fans touch is a pinch
+        vertex, see :meth:`pinch_vertices`. Boundaries are allowed.
+        Operates only on triangles.
 
         Returns
         -------
         bool
-            True if no edges with > 2 triangles.
+            True if no edge has more than two triangles and there are no pinch
+            vertices.
         """
-        return np.max(self.adj_sym.data) <= 2
+        if np.max(self.adj_sym.data) > 2:
+            return False
+        return len(self.pinch_vertices()) == 0
+
+    def pinch_vertices(self) -> np.ndarray:
+        """Find vertices where several fans of triangles touch.
+
+        At a pinch vertex the surrounding triangles fall into more than one
+        group that are not connected across edges at that vertex, as at the
+        common tip of two cones or the centre of a bow tie. Triangles that
+        repeat a vertex index are ignored. Operates only on triangles.
+
+        Returns
+        -------
+        np.ndarray
+            Sorted indices of the pinch vertices.
+        """
+        _, fan_vertex = _vertex_fans(self.t)
+        return np.flatnonzero(np.bincount(fan_vertex) > 1)
 
     def is_boundary(self) -> np.ndarray:
         """Check which vertices are on the boundary.
@@ -630,6 +722,48 @@ class TriaMesh:
         """
         return np.max(self.adj_dir.data) == 1
 
+    def is_orientable(self) -> bool:
+        """Check if every connected component of the mesh can be oriented consistently.
+
+        Unlike :meth:`is_oriented`, this does not depend on the current
+        orientation of the triangles. A Moebius band or a Klein bottle is not
+        orientable. A component is orientable if its orientation double cover,
+        with two copies of every triangle, falls apart into two components.
+        Edges with more than two triangles are not supported.
+
+        Returns
+        -------
+        bool
+            True if all components are orientable.
+
+        Raises
+        ------
+        ValueError
+            If an edge has more than two triangles.
+        """
+        if np.max(self.adj_sym.data) > 2:
+            raise ValueError("Orientability needs at most two triangles per edge.")
+        nt = self.t.shape[0]
+        # sides k of all triangles, from corner k to corner (k + 1) % 3
+        a = self.t.reshape(-1)
+        b = np.roll(self.t, -1, axis=1).reshape(-1)
+        n = self.v.shape[0]
+        key = np.minimum(a, b) * n + np.maximum(a, b)
+        order = np.argsort(key, kind="stable")
+        same = key[order[1:]] == key[order[:-1]]
+        sa, sb = order[:-1][same], order[1:][same]
+        ta, tb = sa // 3, sb // 3
+        # consistent neighbors run along their shared edge in opposite directions
+        consistent = a[sa] != a[sb]
+        # copy 0 of a triangle keeps its orientation, copy 1 is flipped
+        rows = np.concatenate((ta, ta + nt))
+        cols = np.where(np.tile(consistent, 2), np.concatenate((tb, tb + nt)), np.concatenate((tb + nt, tb)))
+        cover = sparse.csr_matrix((np.ones(len(rows)), (rows, cols)), shape=(2 * nt, 2 * nt))
+        n_cover, _ = sparse.csgraph.connected_components(cover, directed=False)
+        faces = sparse.csr_matrix((np.ones(len(ta)), (ta, tb)), shape=(nt, nt))
+        n_comp, _ = sparse.csgraph.connected_components(faces, directed=False)
+        return n_cover == 2 * n_comp
+
     def euler(self) -> int:
         """Compute the Euler Characteristic.
 
@@ -645,9 +779,45 @@ class TriaMesh:
         """
         # v can contain unused vertices so we get vnum from trias
         vnum = len(np.unique(self.t.reshape(-1)))
-        tnum = np.max(self.t.shape)
+        tnum = self.t.shape[0]
         enum = int(self.adj_sym.nnz / 2)
         return vnum - enum + tnum
+
+    def genus(self) -> int:
+        """Compute the genus, summed over all connected components.
+
+        For a manifold mesh with c components and b boundary loops, the Euler
+        characteristic is chi = 2 c - 2 g - b, which gives the total genus g.
+        A sphere and a disk have genus 0, a torus with or without holes cut
+        into it has genus 1. Free vertices are ignored. The current orientation
+        of the triangles does not matter, but the mesh must be orientable, see
+        :meth:`is_orientable`.
+
+        Returns
+        -------
+        int
+            Total genus.
+
+        Raises
+        ------
+        ValueError
+            If the mesh is not manifold, see :meth:`is_manifold`, or not
+            orientable, like a Moebius band.
+        """
+        if not self.is_manifold():
+            raise ValueError("Genus is only defined for manifold meshes.")
+        if not self.is_orientable():
+            raise ValueError("Genus is only defined here for orientable meshes.")
+        used = np.unique(self.t)
+        _, labels = sparse.csgraph.connected_components(self.adj_sym, directed=False)
+        n_comp = len(np.unique(labels[used]))
+        # boundary edges form disjoint loops on a manifold mesh
+        bnd = sparse.triu(self.adj_sym == 1).tocoo()
+        n_loops = 0
+        if bnd.nnz > 0:
+            _, blabels = sparse.csgraph.connected_components(bnd, directed=False)
+            n_loops = len(np.unique(blabels[np.concatenate((bnd.row, bnd.col))]))
+        return (2 * n_comp - n_loops - self.euler()) // 2
 
     def tria_areas(self) -> np.ndarray:
         """Compute the area of triangles using Heron's formula.
@@ -886,11 +1056,9 @@ class TriaMesh:
 
         Meshes can have 0 or more boundary loops, which are cycles in the directed
         adjacency graph of the boundary edges. The mesh must be manifold and oriented.
-
-        .. note::
-
-            Could fail if loops are connected via a single vertex (like a figure 8).
-            That case needs debugging.
+        A boundary that passes through the same vertex twice, like a figure 8,
+        makes that vertex a pinch vertex; :meth:`split_pinch_vertices_` turns
+        it into simple loops.
 
         Returns
         -------
@@ -901,12 +1069,14 @@ class TriaMesh:
         Raises
         ------
         ValueError
-            If mesh is not manifold (edges with more than 2 triangles).
+            If mesh is not manifold (edges with more than 2 triangles or pinch
+            vertices).
             If mesh is not oriented.
         """
         if not self.is_manifold():
             raise ValueError(
-                "Error: tria not manifold (edges with more than 2 triangles)!"
+                "Error: tria not manifold (edges with more than 2 triangles or "
+                "pinch vertices)!"
             )
         if self.is_closed():
             return []
@@ -1000,7 +1170,7 @@ class TriaMesh:
             return self.rm_free_vertices_()
         else:
             # Re-init to update adjacency matrices with new t
-            self.__init__(self.v, self.t, self.fsinfo)
+            self._reinit_(self.v, self.t)
             return None, None
 
     def centroid(self) -> tuple[np.ndarray, float]:
@@ -1462,8 +1632,93 @@ class TriaMesh:
         # convert vkeep to index list
         vkeep = np.nonzero(vkeep)[0]
         # set new vertices and tria and re-init adj matrices
-        self.__init__(vnew, tnew, self.fsinfo)
+        self._reinit_(vnew, tnew)
         return vkeep, vdel
+
+    def split_pinch_vertices_(self) -> np.ndarray:
+        """Give each fan of a pinch vertex its own copy of the vertex.
+
+        The first fan at each pinch vertex keeps the original vertex, every
+        further fan gets a new vertex at the same position, appended after the
+        existing vertices. This separates cones that touch only at their tips
+        and is the cheapest way to make such a mesh manifold, but it also
+        changes its topology. Edges with more than two triangles are left as
+        they are.
+
+        Modifies the mesh in-place.
+
+        Returns
+        -------
+        np.ndarray
+            Original index of each appended vertex, shape (n_new,).
+        """
+        return self._split_fans_(*_vertex_fans(self.t))
+
+    def cut_(self, edges: np.ndarray) -> np.ndarray:
+        """Cut the mesh open along a set of edges.
+
+        Each vertex on a cut edge gets one copy per fan of triangles, where
+        fans are separated by the cut edges. A closed path of cut edges thus
+        becomes two boundary loops, one on each side, and an open path becomes
+        one boundary loop around it. Interior end points of an open path keep a
+        single vertex, so cutting along a single interior edge changes nothing,
+        while a cut from boundary to boundary separates the two sides. The first fan
+        at each vertex keeps the original vertex, every further fan gets a new
+        vertex at the same position, appended after the existing vertices.
+        Vertices away from the cut are not changed, even pinch vertices.
+
+        Modifies the mesh in-place.
+
+        Parameters
+        ----------
+        edges : np.ndarray
+            Vertex pairs of shape (n_edges, 2), in any order and direction.
+
+        Returns
+        -------
+        np.ndarray
+            Original index of each appended vertex, shape (n_new,).
+
+        Raises
+        ------
+        ValueError
+            If a vertex pair is not an edge of the mesh.
+        """
+        edges = np.asarray(edges, dtype=np.int64).reshape(-1, 2)
+        n = self.v.shape[0]
+        if np.any(edges < 0) or np.any(edges >= n):
+            raise ValueError("Edge vertex index out of range.")
+        if np.any(np.asarray(self.adj_sym[edges[:, 0], edges[:, 1]]).ravel() == 0):
+            raise ValueError("Vertex pair is not an edge of the mesh.")
+        fan, fan_vertex = _vertex_fans(self.t, edges)
+        return self._split_fans_(fan, fan_vertex, np.unique(edges))
+
+    def _split_fans_(
+        self,
+        fan: np.ndarray,
+        fan_vertex: np.ndarray,
+        vertices: np.ndarray | None = None,
+    ) -> np.ndarray:
+        """Give each fan its own vertex, see :meth:`split_pinch_vertices_`.
+
+        Only vertices in ``vertices`` are split if given. Returns the original
+        index of each appended vertex.
+        """
+        first = np.zeros(len(fan_vertex), dtype=bool)
+        first[np.unique(fan_vertex, return_index=True)[1]] = True
+        if vertices is not None:
+            first |= ~np.isin(fan_vertex, vertices)
+        extra = np.flatnonzero(~first)
+        if len(extra) == 0:
+            return np.array([], dtype=int)
+        # fans that are not split map back to their vertex
+        new_index = fan_vertex.copy()
+        new_index[extra] = len(self.v) + np.arange(len(extra))
+        source = fan_vertex[extra]
+        # corners of triangles that repeat a vertex index keep their vertex
+        tnew = np.where(fan >= 0, new_index[fan], self.t)
+        self._reinit_(np.vstack((self.v, self.v[source])), tnew)
+        return source
 
     def refine_(self, it: int = 1) -> None:
         """Refine the triangle mesh by placing new vertex on each edge midpoint.
@@ -1500,7 +1755,7 @@ class TriaMesh:
             t4 = np.column_stack((e1, e2, e3))
             tnew = np.reshape(np.concatenate((t1, t2, t3, t4), axis=1), (-1, 3))
             # set new vertices and tria and re-init adj matrices
-            self.__init__(vnew, tnew, self.fsinfo)
+            self._reinit_(vnew, tnew)
 
     def normal_offset_(self, d: float) -> None:
         """Move vertices along their normals by distance d.
@@ -1627,14 +1882,14 @@ class TriaMesh:
             idx = idx.reshape(-1)
             tnew = self.t
             tnew[np.ix_(idx, [1, 0])] = tnew[np.ix_(idx, [0, 1])]
-            self.__init__(self.v, tnew, self.fsinfo)
+            self._reinit_(self.v, tnew)
             flipped = idx.sum()
         # for closed meshes, flip orientation on all trias if volume is negative:
         if self.is_closed():
             logger.debug("Closed mesh detected; ensuring global orientation.")
             if self.volume() < 0:
                 tnew[:, [1, 2]] = tnew[:, [2, 1]]
-                self.__init__(self.v, tnew, self.fsinfo)
+                self._reinit_(self.v, tnew)
                 flipped = tnew.shape[0] - flipped
         return flipped
 

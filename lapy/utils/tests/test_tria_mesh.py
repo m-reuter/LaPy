@@ -78,6 +78,269 @@ def test_is_manifold(tria_mesh_fixture):
     ), f"Expected is_manifold result {expected_result}, but got {result}"
 
 
+def test_pinch_vertex_between_two_tetrahedra():
+    """
+    Two closed tetrahedra that share only a vertex have two triangles per edge
+    everywhere but are not manifold; splitting the vertex separates them.
+    """
+    mesh = _two_tetrahedra()
+    assert np.max(mesh.adj_sym.data) == 2
+    assert not mesh.is_manifold()
+    np.testing.assert_array_equal(mesh.pinch_vertices(), [0])
+
+    source = mesh.split_pinch_vertices_()
+    np.testing.assert_array_equal(source, [0])
+    assert mesh.v.shape[0] == 8
+    np.testing.assert_allclose(mesh.v[7], mesh.v[0])
+    assert mesh.is_manifold()
+    assert mesh.is_oriented()
+    assert mesh.connected_components()[0] == 2
+    assert mesh.euler() == 4
+
+
+def test_pinch_vertex_on_boundary():
+    """
+    A bow tie, two triangles touching at one vertex, has boundary loops that
+    meet in a figure 8; boundary_loops rejects it until the vertex is split.
+    """
+    v = np.array([[0, 0, 0], [1, 1, 0], [1, -1, 0], [-1, 1, 0], [-1, -1, 0]])
+    t = np.array([[0, 2, 1], [0, 3, 4]])
+    mesh = TriaMesh(v, t)
+    assert not mesh.is_manifold()
+    with pytest.raises(ValueError):
+        mesh.boundary_loops()
+    mesh.split_pinch_vertices_()
+    assert mesh.is_manifold()
+    loops = mesh.boundary_loops()
+    assert sorted(len(loop) for loop in loops) == [3, 3]
+
+
+def _torus(n=40, m=16, big_r=3.0, small_r=1.0):
+    """
+    Quad-grid torus standing upright: axis along y, hole visible along y.
+    Vertex i * m + j sits at angle i around the axis and angle j around the tube.
+    """
+    i, j = np.meshgrid(np.arange(n), np.arange(m), indexing="ij")
+    u = 2 * np.pi * i / n
+    w = 2 * np.pi * j / m
+    ring = big_r + small_r * np.cos(w)
+    v = np.column_stack(
+        (
+            (ring * np.cos(u)).ravel(),
+            (small_r * np.sin(w)).ravel(),
+            (ring * np.sin(u)).ravel(),
+        )
+    )
+    a = (i * m + j).ravel()
+    b = (((i + 1) % n) * m + j).ravel()
+    c = (((i + 1) % n) * m + (j + 1) % m).ravel()
+    d = (i * m + (j + 1) % m).ravel()
+    t = np.vstack((np.column_stack((a, b, c)), np.column_stack((a, c, d))))
+    return v, t
+
+
+def _two_tetrahedra():
+    """Two closed tetrahedra sharing only vertex 0."""
+    v1 = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]], dtype=float)
+    t1 = np.array([[0, 2, 1], [0, 1, 3], [0, 3, 2], [1, 2, 3]])
+    # second tetrahedron mirrored through the shared vertex 0
+    v = np.vstack((v1, -v1[1:]))
+    t2 = np.where(t1 == 0, 0, t1 + 3)
+    return TriaMesh(v, np.vstack((t1, t2[:, ::-1])))
+
+
+def test_pinch_vertex_at_saddle_of_sublevel_set():
+    """
+    Cutting a standing torus at the height of the saddle under its hole keeps
+    a cup whose boundary is a figure 8 through the saddle vertex; splitting
+    the vertex turns it into one simple boundary loop around a disk.
+    """
+    big_r, small_r = 3.0, 1.0
+    v, t = _torus(big_r=big_r, small_r=small_r)
+    below = v[:, 2] <= -(big_r - small_r) + 1e-9
+    mesh = TriaMesh(v, t[np.all(below[t], axis=1)])
+    mesh.rm_free_vertices_()
+    pinch = mesh.pinch_vertices()
+    assert len(pinch) == 1
+    np.testing.assert_allclose(mesh.v[pinch[0]], [0, 0, -(big_r - small_r)], atol=1e-12)
+    with pytest.raises(ValueError):
+        mesh.boundary_loops()
+    mesh.split_pinch_vertices_()
+    assert len(mesh.boundary_loops()) == 1
+    assert mesh.euler() == 1
+    assert mesh.genus() == 0
+
+
+def _twisted_grid(n=20, m=8, closed=True):
+    """
+    Quad grid of n rings with m vertices each, glued back to the first ring
+    with the ring reversed: a Klein bottle if the rings are closed, else a
+    Moebius band. Vertex positions only need to be distinct.
+    """
+    i, j = np.meshgrid(np.arange(n), np.arange(m), indexing="ij")
+    u = 2 * np.pi * i / n
+    w = 2 * np.pi * j / m
+    v = np.column_stack(((3 + np.cos(w)) * np.cos(u), np.sin(w), (3 + np.cos(w)) * np.sin(u))).reshape(-1, 3)
+    jj = np.arange(m) if closed else np.arange(m - 1)
+    i, j = np.meshgrid(np.arange(n), jj, indexing="ij")
+    j1 = (j + 1) % m
+    # the last ring is glued to the first one with j reversed
+    last = i == n - 1
+    i1 = (i + 1) % n
+    jn, jn1 = np.where(last, (m - 1 - j) % m, j), np.where(last, (m - 1 - j1) % m, j1)
+    a, b, c, d = (x.ravel() for x in (i * m + j, i1 * m + jn, i1 * m + jn1, i * m + j1))
+    t = np.vstack((np.column_stack((a, b, c)), np.column_stack((a, c, d))))
+    return v, t
+
+
+def test_orientability():
+    """
+    Orientability does not depend on the current triangle orientation; the
+    genus is refused for non-orientable surfaces.
+    """
+    v, t = _torus()
+    mixed = t.copy()
+    mixed[::3] = mixed[::3, ::-1]
+    mesh = TriaMesh(v, mixed)
+    assert not mesh.is_oriented()
+    assert mesh.is_orientable()
+    assert mesh.genus() == 1
+    for closed in (True, False):
+        mesh = TriaMesh(*_twisted_grid(closed=closed))
+        assert mesh.is_manifold()
+        assert mesh.is_closed() == closed
+        assert mesh.euler() == 0
+        assert not mesh.is_orientable()
+        with pytest.raises(ValueError):
+            mesh.genus()
+
+
+def test_in_place_operations_keep_2d_meshes_2d():
+    """
+    In-place operations that rebuild the mesh keep 2D meshes 2D.
+    """
+    # a square of two triangles, a separate triangle and a free vertex
+    v = np.array([[0, 0], [1, 0], [1, 1], [0, 1], [3, 0], [4, 0], [3, 1], [9, 9]], dtype=float)
+    t = np.array([[0, 1, 2], [0, 3, 2], [4, 5, 6]])
+
+    def check(mesh, n_vertices):
+        assert mesh.is_2d()
+        assert mesh.get_vertices(original_dim=True).shape == (n_vertices, 2)
+
+    mesh = TriaMesh(v, t)
+    mesh.rm_free_vertices_()
+    check(mesh, 7)
+    mesh = TriaMesh(v, t)
+    mesh.orient_()
+    assert mesh.is_oriented()
+    check(mesh, 8)
+    mesh = TriaMesh(v, t)
+    mesh.keep_largest_connected_component_(clean=False)
+    check(mesh, 8)
+    mesh = TriaMesh(v, t[:2])
+    mesh.refine_()
+    # eight vertices and five edge midpoints
+    check(mesh, 13)
+    # the diagonal ends on the boundary, so cutting it separates the two triangles
+    mesh = TriaMesh(v, t[:2])
+    mesh.cut_(np.array([[0, 2]]))
+    check(mesh, 10)
+    # a bow tie, two triangles touching at one vertex
+    bow = np.array([[0, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]], dtype=float)
+    mesh = TriaMesh(bow, np.array([[0, 2, 1], [0, 3, 4]]))
+    mesh.split_pinch_vertices_()
+    check(mesh, 6)
+
+
+def test_genus():
+    """
+    Genus of closed and open surfaces, with one or several components.
+    """
+    v, t = _torus()
+    assert TriaMesh(v, t).genus() == 1
+    # a torus with a hole still has genus 1
+    assert TriaMesh(v, t[1:]).genus() == 1
+    # two disjoint tori and an unused vertex
+    v2 = np.vstack((v, v + [10, 0, 0], [[50, 0, 0]]))
+    assert TriaMesh(v2, np.vstack((t, t + len(v)))).genus() == 2
+    mesh = _two_tetrahedra()
+    with pytest.raises(ValueError):
+        mesh.genus()
+    mesh.split_pinch_vertices_()
+    assert mesh.genus() == 0
+
+
+def test_euler_and_genus_of_meshes_with_fewer_than_three_triangles():
+    """
+    One triangle and two triangles sharing an edge are disks.
+    """
+    v = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]], dtype=float)
+    one = TriaMesh(v, np.array([[0, 1, 2]]))
+    two = TriaMesh(v, np.array([[0, 1, 2], [1, 3, 2]]))
+    assert one.euler() == 1 and one.genus() == 0
+    assert two.euler() == 1 and two.genus() == 0
+
+
+def test_cut_torus_along_meridian():
+    """
+    Cutting a torus along a closed loop around its tube leaves a tube with
+    two boundary loops of the same length, one per side of the cut.
+    """
+    n, m = 40, 16
+    v, t = _torus(n, m)
+    mesh = TriaMesh(v, t)
+    meridian = np.arange(m)
+    source = mesh.cut_(np.column_stack((meridian, np.roll(meridian, -1))))
+    np.testing.assert_array_equal(np.sort(source), meridian)
+    np.testing.assert_allclose(mesh.v[n * m :], mesh.v[source])
+    assert mesh.is_manifold()
+    assert mesh.is_oriented()
+    assert mesh.connected_components()[0] == 1
+    assert sorted(len(loop) for loop in mesh.boundary_loops()) == [m, m]
+    assert mesh.genus() == 0
+
+
+def test_cut_along_open_path():
+    """
+    Cutting along an open path splits only its inner vertices and opens one
+    boundary loop around the path; the genus does not change.
+    """
+    v, t = _torus()
+    mesh = TriaMesh(v, t)
+    source = mesh.cut_(np.array([[0, 1], [2, 1]]))
+    np.testing.assert_array_equal(source, [1])
+    loops = mesh.boundary_loops()
+    assert len(loops) == 1
+    assert sorted(loops[0]) == sorted([0, 1, 2, len(v)])
+    assert mesh.genus() == 1
+
+
+def test_cut_keeps_pinch_vertices_away_from_the_cut():
+    """
+    Only vertices on the cut are split; a pinch vertex elsewhere stays.
+    """
+    mesh = _two_tetrahedra()
+    source = mesh.cut_(np.array([[1, 2], [2, 3]]))
+    np.testing.assert_array_equal(source, [2])
+    np.testing.assert_array_equal(mesh.pinch_vertices(), [0])
+    with pytest.raises(ValueError):
+        mesh.cut_(np.array([[1, 5]]))
+
+
+def test_edge_with_three_triangles():
+    """
+    An edge with three triangles makes the mesh non-manifold; its triangles
+    form one fan at both end points, so there is no pinch vertex to split.
+    """
+    v = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1]])
+    t = np.array([[0, 1, 2], [1, 0, 3], [0, 1, 4]])
+    mesh = TriaMesh(v, t)
+    assert not mesh.is_manifold()
+    assert len(mesh.pinch_vertices()) == 0
+    assert len(mesh.split_pinch_vertices_()) == 0
+    assert mesh.v.shape[0] == 5
+
+
 def test_is_oriented(tria_mesh_fixture):
     """
     Testing whether the function is_oriented() returns True
