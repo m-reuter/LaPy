@@ -779,7 +779,7 @@ class TriaMesh:
         """
         # v can contain unused vertices so we get vnum from trias
         vnum = len(np.unique(self.t.reshape(-1)))
-        tnum = np.max(self.t.shape)
+        tnum = self.t.shape[0]
         enum = int(self.adj_sym.nnz / 2)
         return vnum - enum + tnum
 

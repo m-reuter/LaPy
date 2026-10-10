@@ -270,6 +270,17 @@ def test_genus():
     assert mesh.genus() == 0
 
 
+def test_euler_and_genus_of_meshes_with_fewer_than_three_triangles():
+    """
+    One triangle and two triangles sharing an edge are disks.
+    """
+    v = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]], dtype=float)
+    one = TriaMesh(v, np.array([[0, 1, 2]]))
+    two = TriaMesh(v, np.array([[0, 1, 2], [1, 3, 2]]))
+    assert one.euler() == 1 and one.genus() == 0
+    assert two.euler() == 1 and two.genus() == 0
+
+
 def test_cut_torus_along_meridian():
     """
     Cutting a torus along a closed loop around its tube leaves a tube with
