@@ -124,7 +124,14 @@ def closest_points(tria: "TriaMesh", points: np.ndarray, k: int = 8) -> tuple[np
         Closest surface point for each query point, shape (n_points, 3).
     tria_idx : np.ndarray
         Index of the triangle that contains each closest point.
+
+    Raises
+    ------
+    ValueError
+        If ``k`` is not a positive integer.
     """
+    if isinstance(k, bool) or not isinstance(k, (int, np.integer)) or k < 1:
+        raise ValueError(f"k must be a positive integer, got {k!r}.")
     projector = _Projector(np.asarray(tria.v, dtype=float), np.asarray(tria.t, dtype=np.int64), k)
     return projector.closest(points, return_tria=True)
 
