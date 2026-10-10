@@ -45,7 +45,6 @@ def import_optional_dependency(
     ImportError
         dependency not found; see raise_error
     """
-
     package_name = INSTALL_MAPPING.get(name)
     install_name = package_name if package_name is not None else name
 
