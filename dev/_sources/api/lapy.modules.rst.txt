@@ -11,4 +11,6 @@ Modules
     heat
     diffgeo
     conformal
+    intersect
+    remesh
     plot

@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="lapy.shapedna" href="lapy.shapedna.html"><link rel="prev" title="Modules" href="../lapy.modules.html">
+<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="lapy.plot" href="lapy.plot.html"><link rel="prev" title="lapy.intersect" href="lapy.intersect.html">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>lapy.io - LaPy</title>
+        <title>lapy.remesh - LaPy</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -206,13 +206,13 @@
 </ul>
 </li>
 <li class="toctree-l2 current has-children"><a class="reference internal" href="../lapy.modules.html">Modules</a><input aria-label="Toggle navigation of Modules" checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">lapy.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lapy.io.html">lapy.io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.shapedna.html">lapy.shapedna</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.heat.html">lapy.heat</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.diffgeo.html">lapy.diffgeo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.conformal.html">lapy.conformal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.intersect.html">lapy.intersect</a></li>
-<li class="toctree-l3"><a class="reference internal" href="lapy.remesh.html">lapy.remesh</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">lapy.remesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.plot.html">lapy.plot</a></li>
 </ul>
 </li>
@@ -247,7 +247,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../../_sources/api/generated/lapy.io.rst.txt" title="View this page">
+  <a class="muted-link" href="../../_sources/api/generated/lapy.remesh.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -265,145 +265,126 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="module-lapy.io">
-<span id="lapy-io"></span><h1>lapy.io<a class="headerlink" href="#module-lapy.io" title="Link to this heading">¶</a></h1>
-<p>Functions to read and write spectra and vertex functions.</p>
+          <section id="module-lapy.remesh">
+<span id="lapy-remesh"></span><h1>lapy.remesh<a class="headerlink" href="#module-lapy.remesh" title="Link to this heading">¶</a></h1>
+<p>Isotropic remeshing of triangle meshes after Botsch and Kobbelt.</p>
+<p>Each iteration splits long edges, collapses short edges, flips edges towards
+valence 6, smooths tangentially and projects the vertices back onto the input
+surface. Every operation runs in rounds over sets of edges whose
+neighborhoods do not overlap, so a round is a few array operations instead of
+a loop over the mesh.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="lapy.io.read_ev">
-<span class="sig-prename descclassname"><span class="pre">lapy.io.</span></span><span class="sig-name descname"><span class="pre">read_ev</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/io.py#L55-L182"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.io.read_ev" title="Link to this definition">¶</a></dt>
-<dd><p>Load EV file.</p>
+<dt class="sig sig-object py" id="lapy.remesh.closest_points">
+<span class="sig-prename descclassname"><span class="pre">lapy.remesh.</span></span><span class="sig-name descname"><span class="pre">closest_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/remesh.py#L106-L136"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.remesh.closest_points" title="Link to this definition">¶</a></dt>
+<dd><p>Find the closest point on a triangle mesh for each query point.</p>
+<p>Only the <code class="docutils literal notranslate"><span class="pre">k</span></code> triangles with the nearest centroids are tested, so a
+point must be close to the surface compared with the triangle size.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename of input.</p>
+<dt><strong>tria</strong><span class="classifier"><a class="reference internal" href="lapy.TriaMesh.html#lapy.TriaMesh" title="lapy.TriaMesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TriaMesh</span></code></a></span></dt><dd><p>Triangle mesh.</p>
+</dd>
+<dt><strong>points</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></span></dt><dd><p>Query points of shape (n_points, 3).</p>
+</dd>
+<dt><strong>k</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a>, default=8</span></dt><dd><p>Number of candidate triangles per point.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">dict</span></code></a></dt><dd><p>Dictionary of eigenvalues, eigenvectors (optional), and associated
-information. Contains keys like ‘Eigenvalues’ (np.ndarray), ‘Eigenvectors’
-(np.ndarray, optional), and metadata fields.</p>
+<dd class="field-even"><dl>
+<dt><strong>closest</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></span></dt><dd><p>Closest surface point for each query point, shape (n_points, 3).</p>
+</dd>
+<dt><strong>tria_idx</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></span></dt><dd><p>Index of the triangle that contains each closest point.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#OSError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSError</span></code></a></dt><dd><p>If file is not readable.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">k</span></code> is not a positive integer.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>tria</strong> (<a class="reference internal" href="lapy.TriaMesh.html#lapy.TriaMesh" title="lapy.TriaMesh"><em>TriaMesh</em></a>)</p></li>
+<li><p><strong>points</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a>)</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a>)</p></li>
+</ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)">tuple</a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="lapy.io.read_vfunc">
-<span class="sig-prename descclassname"><span class="pre">lapy.io.</span></span><span class="sig-name descname"><span class="pre">read_vfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/io.py#L10-L52"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.io.read_vfunc" title="Link to this definition">¶</a></dt>
-<dd><p>Import vertex functions from txt file.</p>
-<p>Values can be separated by <code class="docutils literal notranslate"><span class="pre">;</span></code> or <code class="docutils literal notranslate"><span class="pre">,</span></code> and surrounded by <code class="docutils literal notranslate"><span class="pre">{}</span></code> or <code class="docutils literal notranslate"><span class="pre">()</span></code>
-brackets. Also first line can have the keyword “Solution:”, i.e. the PSOL format
-from ShapeDNA.</p>
+<dt class="sig sig-object py" id="lapy.remesh.remesh">
+<span class="sig-prename descclassname"><span class="pre">lapy.remesh.</span></span><span class="sig-name descname"><span class="pre">remesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_rounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/remesh.py#L19-L103"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.remesh.remesh" title="Link to this definition">¶</a></dt>
+<dd><p>Remesh a triangle mesh to near-equilateral triangles of a given edge length.</p>
+<p>This follows the remeshing approach of Botsch and Kobbelt <a class="reference internal" href="#rc99e37d15a31-1" id="id1">[1]</a>. Edges
+longer than 4/3 of the target are split at their midpoint, and edges
+shorter than 4/5 of it are collapsed to their midpoint. A collapse is
+only done if it keeps the topology, creates no edge longer than 4/3 of
+the target and tilts no triangle by more than 60 degrees. The topology
+check is the link condition <a class="reference internal" href="#rc99e37d15a31-2" id="id2">[2]</a>: the two end points of the edge may
+share no neighbors other than the two vertices opposite the edge. Edges
+are then flipped where that brings vertex valences closer to 6, and the
+vertices are smoothed tangentially and projected back onto the input
+surface. Boundary vertices stay where they are.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename of input.</p>
+<dt><strong>tria</strong><span class="classifier"><a class="reference internal" href="lapy.TriaMesh.html#lapy.TriaMesh" title="lapy.TriaMesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TriaMesh</span></code></a></span></dt><dd><p>Oriented manifold triangle mesh.</p>
+</dd>
+<dt><strong>target_length</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a>, default=None</span></dt><dd><p>Target edge length. Defaults to the mean edge length of the input.</p>
+</dd>
+<dt><strong>iterations</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a>, default=5</span></dt><dd><p>Number of split, collapse, flip, smooth and project iterations.</p>
+</dd>
+<dt><strong>max_rounds</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a>, default=10</span></dt><dd><p>Maximum number of rounds per operation and iteration. Later rounds
+do little, and what is left carries over to the next iteration.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>List of vfunc parameters.</p>
+<dt><a class="reference internal" href="lapy.TriaMesh.html#lapy.TriaMesh" title="lapy.TriaMesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TriaMesh</span></code></a></dt><dd><p>Remeshed surface, oriented like the input. A 2D mesh stays 2D.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#OSError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSError</span></code></a></dt><dd><p>If file is not found or not readable.</p>
-</dd>
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If ‘Solution:’ marker is not found or no vertex function data exists.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If the mesh is not manifold or not oriented, or if the target length
+is not a finite positive number.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>tria</strong> (<a class="reference internal" href="lapy.TriaMesh.html#lapy.TriaMesh" title="lapy.TriaMesh"><em>TriaMesh</em></a>)</p></li>
+<li><p><strong>target_length</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><em>float</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>iterations</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a>)</p></li>
+<li><p><strong>max_rounds</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a>)</p></li>
+</ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a>[<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a>]</p>
+<dd class="field-odd"><p><a class="reference internal" href="lapy.TriaMesh.html#lapy.TriaMesh" title="lapy.TriaMesh">TriaMesh</a></p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lapy.io.write_ev">
-<span class="sig-prename descclassname"><span class="pre">lapy.io.</span></span><span class="sig-name descname"><span class="pre">write_ev</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/io.py#L185-L283"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.io.write_ev" title="Link to this definition">¶</a></dt>
-<dd><p>Save EV data structures as txt file (format from ShapeDNA).</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to save to.</p>
-</dd>
-<dt><strong>d</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">dict</span></code></a></span></dt><dd><p>Dictionary of eigenvalues, eigenvectors (optional), and associated
-information. Must contain key ‘Eigenvalues’ (np.ndarray). Optional keys
-include ‘Eigenvectors’ (np.ndarray) and various metadata fields.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#OSError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSError</span></code></a></dt><dd><p>If file is not writable.</p>
-</dd>
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If ‘Eigenvalues’ key is missing from dictionary.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p></li>
-<li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lapy.io.write_vfunc">
-<span class="sig-prename descclassname"><span class="pre">lapy.io.</span></span><span class="sig-name descname"><span class="pre">write_vfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vfunc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/io.py#L286-L310"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.io.write_vfunc" title="Link to this definition">¶</a></dt>
-<dd><p>Save vertex function in PSOL txt file.</p>
-<p>First line “Solution:”, “,” separated values inside ()</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to save to.</p>
-</dd>
-<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></span></dt><dd><p>Array of vfunc parameters, shape (n_vertices,).</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#OSError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSError</span></code></a></dt><dd><p>If file is not writable.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p></li>
-<li><p><strong>vfunc</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="rc99e37d15a31-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>M. Botsch and L. Kobbelt. A remeshing approach to multiresolution
+modeling. In Proceedings of the Eurographics/ACM SIGGRAPH Symposium on
+Geometry Processing, pages 185-192, 2004. doi:10.1145/1057432.1057457</p>
+</div>
+<div class="citation" id="rc99e37d15a31-2" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>T. K. Dey, H. Edelsbrunner, S. Guha and D. V. Nekhayev. Topology
+preserving edge contraction. Publications de l’Institut Mathematique
+(Beograd), 66(80):23-45, 1999.</p>
+</div>
+</div>
 </dd></dl>
 
 </section>
@@ -413,23 +394,23 @@ include ‘Eigenvectors’ (np.ndarray) and various metadata fields.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="lapy.shapedna.html">
+          <a class="next-page" href="lapy.plot.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">lapy.shapedna</div>
+                <div class="title">lapy.plot</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../lapy.modules.html">
+          <a class="prev-page" href="lapy.intersect.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Modules</div>
+                <div class="title">lapy.intersect</div>
                 
               </div>
             </a>
@@ -470,11 +451,9 @@ include ‘Eigenvectors’ (np.ndarray) and various metadata fields.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">lapy.io</a><ul>
-<li><a class="reference internal" href="#lapy.io.read_ev"><code class="docutils literal notranslate"><span class="pre">read_ev()</span></code></a></li>
-<li><a class="reference internal" href="#lapy.io.read_vfunc"><code class="docutils literal notranslate"><span class="pre">read_vfunc()</span></code></a></li>
-<li><a class="reference internal" href="#lapy.io.write_ev"><code class="docutils literal notranslate"><span class="pre">write_ev()</span></code></a></li>
-<li><a class="reference internal" href="#lapy.io.write_vfunc"><code class="docutils literal notranslate"><span class="pre">write_vfunc()</span></code></a></li>
+<li><a class="reference internal" href="#">lapy.remesh</a><ul>
+<li><a class="reference internal" href="#lapy.remesh.closest_points"><code class="docutils literal notranslate"><span class="pre">closest_points()</span></code></a></li>
+<li><a class="reference internal" href="#lapy.remesh.remesh"><code class="docutils literal notranslate"><span class="pre">remesh()</span></code></a></li>
 </ul>
 </li>
 </ul>

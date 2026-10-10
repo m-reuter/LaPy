@@ -8,10 +8,6 @@
 <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=c83e6b79" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
     <link rel="stylesheet" type="text/css" href="_static/css/style.css?v=0bd98ae2" />
@@ -213,6 +209,8 @@
 <li class="toctree-l3"><a class="reference internal" href="api/generated/lapy.heat.html">lapy.heat</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/lapy.diffgeo.html">lapy.diffgeo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/lapy.conformal.html">lapy.conformal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/lapy.intersect.html">lapy.intersect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/lapy.remesh.html">lapy.remesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/lapy.plot.html">lapy.plot</a></li>
 </ul>
 </li>
@@ -225,10 +223,6 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorials/examples/Test_ShapeDNA.html">ShapeDNA</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/examples/Test_TriaMesh_Geodesics.html">TriaMesh Geodesics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/examples/Test_TetMesh_Geodesics.html">TetMesh Geodesics</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="changes/index.html">Changelog</a><input aria-label="Toggle navigation of Changelog" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="changes/latest.html">Version 1.0</a></li>
 </ul>
 </li>
 </ul>
@@ -266,7 +260,7 @@
           
 <section class="genindex-section">
   <h1 id="index">Index</h1>
-  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a></div>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a></div>
 </section>
 <section id="A" class="genindex-section">
   <h2>A</h2>
@@ -318,6 +312,8 @@
         </ul></li>
         <li><a href="api/generated/lapy.Polygon.html#lapy.Polygon.close">close() (lapy.Polygon method)</a>
 </li>
+        <li><a href="api/generated/lapy.remesh.html#lapy.remesh.closest_points">closest_points() (in module lapy.remesh)</a>
+</li>
         <li><a href="api/generated/lapy.shapedna.html#lapy.shapedna.compute_distance">compute_distance() (in module lapy.shapedna)</a>
 </li>
         <li><a href="api/generated/lapy.diffgeo.html#lapy.diffgeo.compute_divergence">compute_divergence() (in module lapy.diffgeo)</a>
@@ -343,6 +339,8 @@
         <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.curvature">curvature() (lapy.TriaMesh method)</a>
 </li>
         <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.curvature_tria">curvature_tria() (lapy.TriaMesh method)</a>
+</li>
+        <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.cut_">cut_() (lapy.TriaMesh method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -394,10 +392,12 @@
   <h2>G</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/generated/lapy.Polygon.html#lapy.Polygon.get_points">get_points() (lapy.Polygon method)</a>
+        <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.genus">genus() (lapy.TriaMesh method)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/generated/lapy.Polygon.html#lapy.Polygon.get_points">get_points() (lapy.Polygon method)</a>
+</li>
         <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.get_vertices">get_vertices() (lapy.TriaMesh method)</a>
 </li>
     </ul></td>
@@ -432,15 +432,17 @@
         </ul></li>
         <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.is_boundary">is_boundary() (lapy.TriaMesh method)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/generated/lapy.Polygon.html#lapy.Polygon.is_closed">is_closed() (lapy.Polygon method)</a>
 
         <ul>
           <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.is_closed">(lapy.TriaMesh method)</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.is_manifold">is_manifold() (lapy.TriaMesh method)</a>
+</li>
+        <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.is_orientable">is_orientable() (lapy.TriaMesh method)</a>
 </li>
         <li><a href="api/generated/lapy.TetMesh.html#lapy.TetMesh.is_oriented">is_oriented() (lapy.TetMesh method)</a>
 
@@ -492,6 +494,13 @@
 </li>
         </ul></li>
         <li>
+    lapy.intersect
+
+        <ul>
+          <li><a href="api/generated/lapy.intersect.html#module-lapy.intersect">module</a>
+</li>
+        </ul></li>
+        <li>
     lapy.io
 
         <ul>
@@ -505,6 +514,13 @@
 
         <ul>
           <li><a href="api/generated/lapy.plot.html#module-lapy.plot">module</a>
+</li>
+        </ul></li>
+        <li>
+    lapy.remesh
+
+        <ul>
+          <li><a href="api/generated/lapy.remesh.html#module-lapy.remesh">module</a>
 </li>
         </ul></li>
         <li>
@@ -546,9 +562,13 @@
 </li>
           <li><a href="api/generated/lapy.heat.html#module-lapy.heat">lapy.heat</a>
 </li>
+          <li><a href="api/generated/lapy.intersect.html#module-lapy.intersect">lapy.intersect</a>
+</li>
           <li><a href="api/generated/lapy.io.html#module-lapy.io">lapy.io</a>
 </li>
           <li><a href="api/generated/lapy.plot.html#module-lapy.plot">lapy.plot</a>
+</li>
+          <li><a href="api/generated/lapy.remesh.html#module-lapy.remesh">lapy.remesh</a>
 </li>
           <li><a href="api/generated/lapy.shapedna.html#module-lapy.shapedna">lapy.shapedna</a>
 </li>
@@ -593,12 +613,14 @@
   <h2>P</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/generated/lapy.plot.html#lapy.plot.plot_tet_mesh">plot_tet_mesh() (in module lapy.plot)</a>
+        <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.pinch_vertices">pinch_vertices() (lapy.TriaMesh method)</a>
 </li>
-        <li><a href="api/generated/lapy.plot.html#lapy.plot.plot_tria_mesh">plot_tria_mesh() (in module lapy.plot)</a>
+        <li><a href="api/generated/lapy.plot.html#lapy.plot.plot_tet_mesh">plot_tet_mesh() (in module lapy.plot)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/generated/lapy.plot.html#lapy.plot.plot_tria_mesh">plot_tria_mesh() (in module lapy.plot)</a>
+</li>
         <li><a href="api/generated/lapy.Solver.html#lapy.Solver.poisson">poisson() (lapy.Solver method)</a>
 </li>
         <li><a href="api/generated/lapy.Polygon.html#lapy.Polygon">Polygon (class in lapy)</a>
@@ -637,6 +659,8 @@
         </ul></li>
         <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.refine_">refine_() (lapy.TriaMesh method)</a>
 </li>
+        <li><a href="api/generated/lapy.remesh.html#lapy.remesh.remesh">remesh() (in module lapy.remesh)</a>
+</li>
         <li><a href="api/generated/lapy.Polygon.html#lapy.Polygon.resample">resample() (lapy.Polygon method)</a>
 </li>
         <li><a href="api/generated/lapy.shapedna.html#lapy.shapedna.reweight_ev">reweight_ev() (in module lapy.shapedna)</a>
@@ -655,6 +679,8 @@
   <h2>S</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/generated/lapy.intersect.html#lapy.intersect.self_intersections">self_intersections() (in module lapy.intersect)</a>
+</li>
         <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.smooth_">smooth_() (lapy.TriaMesh method)</a>
 </li>
         <li><a href="api/generated/lapy.Polygon.html#lapy.Polygon.smooth_laplace">smooth_laplace() (lapy.Polygon method)</a>
@@ -678,6 +704,8 @@
         <li><a href="api/generated/lapy.conformal.html#lapy.conformal.spherical_conformal_map">spherical_conformal_map() (in module lapy.conformal)</a>
 </li>
         <li><a href="api/generated/lapy.conformal.html#lapy.conformal.spherical_tutte_map">spherical_tutte_map() (in module lapy.conformal)</a>
+</li>
+        <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh.split_pinch_vertices_">split_pinch_vertices_() (lapy.TriaMesh method)</a>
 </li>
         <li><a href="api/generated/lapy.conformal.html#lapy.conformal.stereographic">stereographic() (in module lapy.conformal)</a>
 </li>
@@ -718,6 +746,18 @@
         <li><a href="api/generated/lapy.diffgeo.html#lapy.diffgeo.tria_spherical_project">tria_spherical_project() (in module lapy.diffgeo)</a>
 </li>
         <li><a href="api/generated/lapy.TriaMesh.html#lapy.TriaMesh">TriaMesh (class in lapy)</a>
+</li>
+        <li><a href="api/generated/lapy.intersect.html#lapy.intersect.triangles_intersect">triangles_intersect() (in module lapy.intersect)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="U" class="genindex-section">
+  <h2>U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/generated/lapy.intersect.html#lapy.intersect.undo_intersections">undo_intersections() (in module lapy.intersect)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -810,7 +850,6 @@
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     </body>

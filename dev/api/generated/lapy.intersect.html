@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="lapy.shapedna" href="lapy.shapedna.html"><link rel="prev" title="Modules" href="../lapy.modules.html">
+<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="lapy.remesh" href="lapy.remesh.html"><link rel="prev" title="lapy.conformal" href="lapy.conformal.html">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>lapy.io - LaPy</title>
+        <title>lapy.intersect - LaPy</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -206,12 +206,12 @@
 </ul>
 </li>
 <li class="toctree-l2 current has-children"><a class="reference internal" href="../lapy.modules.html">Modules</a><input aria-label="Toggle navigation of Modules" checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">lapy.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lapy.io.html">lapy.io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.shapedna.html">lapy.shapedna</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.heat.html">lapy.heat</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.diffgeo.html">lapy.diffgeo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.conformal.html">lapy.conformal</a></li>
-<li class="toctree-l3"><a class="reference internal" href="lapy.intersect.html">lapy.intersect</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">lapy.intersect</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.remesh.html">lapy.remesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lapy.plot.html">lapy.plot</a></li>
 </ul>
@@ -247,7 +247,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../../_sources/api/generated/lapy.io.rst.txt" title="View this page">
+  <a class="muted-link" href="../../_sources/api/generated/lapy.intersect.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -265,143 +265,144 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="module-lapy.io">
-<span id="lapy-io"></span><h1>lapy.io<a class="headerlink" href="#module-lapy.io" title="Link to this heading">¶</a></h1>
-<p>Functions to read and write spectra and vertex functions.</p>
+          <section id="module-lapy.intersect">
+<span id="lapy-intersect"></span><h1>lapy.intersect<a class="headerlink" href="#module-lapy.intersect" title="Link to this heading">¶</a></h1>
+<p>Self-intersection tests for triangle meshes.</p>
+<p>Candidate pairs of triangles come from a KD-tree on the triangle centroids,
+and each candidate pair is tested exactly with the interval test of Moeller
+(1997). Everything is vectorized over the candidate pairs.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="lapy.io.read_ev">
-<span class="sig-prename descclassname"><span class="pre">lapy.io.</span></span><span class="sig-name descname"><span class="pre">read_ev</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/io.py#L55-L182"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.io.read_ev" title="Link to this definition">¶</a></dt>
-<dd><p>Load EV file.</p>
+<dt class="sig sig-object py" id="lapy.intersect.self_intersections">
+<span class="sig-prename descclassname"><span class="pre">lapy.intersect.</span></span><span class="sig-name descname"><span class="pre">self_intersections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/intersect.py#L153-L175"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.intersect.self_intersections" title="Link to this definition">¶</a></dt>
+<dd><p>Find pairs of triangles that intersect and do not share a vertex.</p>
+<p>Triangles that share a vertex or an edge are never reported, and
+neither are triangles that only touch in a point or lie in a common
+plane. For a 2D mesh, which is planar, nothing is reported.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename of input.</p>
+<dt><strong>tria</strong><span class="classifier"><a class="reference internal" href="lapy.TriaMesh.html#lapy.TriaMesh" title="lapy.TriaMesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TriaMesh</span></code></a></span></dt><dd><p>Triangle mesh.</p>
+</dd>
+<dt><strong>subset</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a>, default=None</span></dt><dd><p>Triangle indices. If given, only pairs that involve at least one of
+these triangles are reported, which is much faster when only a few
+triangles have moved.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">dict</span></code></a></dt><dd><p>Dictionary of eigenvalues, eigenvectors (optional), and associated
-information. Contains keys like ‘Eigenvalues’ (np.ndarray), ‘Eigenvectors’
-(np.ndarray, optional), and metadata fields.</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></dt><dd><p>Array of shape (n_pairs, 2) with the indices of intersecting
+triangles, sorted within each row and lexicographically.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#OSError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSError</span></code></a></dt><dd><p>If file is not readable.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tria</strong> (<a class="reference internal" href="lapy.TriaMesh.html#lapy.TriaMesh" title="lapy.TriaMesh"><em>TriaMesh</em></a>)</p></li>
+<li><p><strong>subset</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a><em> | </em><em>None</em>)</p></li>
+</ul>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)">dict</a></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="lapy.io.read_vfunc">
-<span class="sig-prename descclassname"><span class="pre">lapy.io.</span></span><span class="sig-name descname"><span class="pre">read_vfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/io.py#L10-L52"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.io.read_vfunc" title="Link to this definition">¶</a></dt>
-<dd><p>Import vertex functions from txt file.</p>
-<p>Values can be separated by <code class="docutils literal notranslate"><span class="pre">;</span></code> or <code class="docutils literal notranslate"><span class="pre">,</span></code> and surrounded by <code class="docutils literal notranslate"><span class="pre">{}</span></code> or <code class="docutils literal notranslate"><span class="pre">()</span></code>
-brackets. Also first line can have the keyword “Solution:”, i.e. the PSOL format
-from ShapeDNA.</p>
+<dt class="sig sig-object py" id="lapy.intersect.triangles_intersect">
+<span class="sig-prename descclassname"><span class="pre">lapy.intersect.</span></span><span class="sig-name descname"><span class="pre">triangles_intersect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/intersect.py#L46-L104"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.intersect.triangles_intersect" title="Link to this definition">¶</a></dt>
+<dd><p>Test pairs of triangles for intersection.</p>
+<p>Uses the interval test of Moeller <a class="reference internal" href="#rcb2b944ef0c9-1" id="id1">[1]</a>. Pairs that only touch in a
+single point and coplanar pairs are reported as not intersecting.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename of input.</p>
+<dt><strong>a</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></span></dt><dd><p>Corner coordinates of the first triangle of each pair, shape (k, 3, 3).</p>
+</dd>
+<dt><strong>b</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></span></dt><dd><p>Corner coordinates of the second triangle of each pair, shape (k, 3, 3).</p>
+</dd>
+<dt><strong>eps</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a>, default=1e-10</span></dt><dd><p>Distances to the other triangle’s plane below <code class="docutils literal notranslate"><span class="pre">eps</span></code> times the
+longest edge of the pair count as zero.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>List of vfunc parameters.</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></dt><dd><p>Boolean array of shape (k,), True where the two triangles intersect.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a>)</p></li>
+<li><p><strong>b</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a>)</p></li>
+<li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><em>float</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a></p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="rcb2b944ef0c9-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>T. Moeller. A fast triangle-triangle intersection test. Journal of
+Graphics Tools, 2(2):25-30, 1997. doi:10.1080/10867651.1997.10487472</p>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lapy.intersect.undo_intersections">
+<span class="sig-prename descclassname"><span class="pre">lapy.intersect.</span></span><span class="sig-name descname"><span class="pre">undo_intersections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_new</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_rounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/intersect.py#L178-L238"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.intersect.undo_intersections" title="Link to this definition">¶</a></dt>
+<dd><p>Move vertices back where new positions make the surface intersect itself.</p>
+<p>Useful after smoothing or another change of vertex positions on a
+surface that did not intersect itself before. Starting from the
+triangles that intersect with the new positions, their vertices and
+<code class="docutils literal notranslate"><span class="pre">rings</span></code> rings of neighbors return to their positions in <code class="docutils literal notranslate"><span class="pre">tria</span></code>. This
+repeats, testing only the triangles that changed, until no triangle
+intersects or <code class="docutils literal notranslate"><span class="pre">max_rounds</span></code> is reached. The mesh itself is not
+modified.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>tria</strong><span class="classifier"><a class="reference internal" href="lapy.TriaMesh.html#lapy.TriaMesh" title="lapy.TriaMesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TriaMesh</span></code></a></span></dt><dd><p>Triangle mesh with the old vertex positions.</p>
+</dd>
+<dt><strong>v_new</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></span></dt><dd><p>New vertex positions of shape (n_vertices, 3), or (n_vertices, 2)
+for a 2D mesh.</p>
+</dd>
+<dt><strong>rings</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a>, default=2</span></dt><dd><p>Rings of neighbors that move back together with each intersecting
+triangle.</p>
+</dd>
+<dt><strong>max_rounds</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a>, default=10</span></dt><dd><p>Maximum number of rounds.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>v</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></span></dt><dd><p>Vertex positions, of the same shape as <code class="docutils literal notranslate"><span class="pre">v_new</span></code>.</p>
+</dd>
+<dt><strong>n_reverted</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>Number of vertices moved back to their old positions.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#OSError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSError</span></code></a></dt><dd><p>If file is not found or not readable.</p>
-</dd>
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If ‘Solution:’ marker is not found or no vertex function data exists.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">v_new</span></code> does not have the shape of the mesh vertices.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>tria</strong> (<a class="reference internal" href="lapy.TriaMesh.html#lapy.TriaMesh" title="lapy.TriaMesh"><em>TriaMesh</em></a>)</p></li>
+<li><p><strong>v_new</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a>)</p></li>
+<li><p><strong>rings</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a>)</p></li>
+<li><p><strong>max_rounds</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a>)</p></li>
+</ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a>[<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)">float</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lapy.io.write_ev">
-<span class="sig-prename descclassname"><span class="pre">lapy.io.</span></span><span class="sig-name descname"><span class="pre">write_ev</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/io.py#L185-L283"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.io.write_ev" title="Link to this definition">¶</a></dt>
-<dd><p>Save EV data structures as txt file (format from ShapeDNA).</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to save to.</p>
-</dd>
-<dt><strong>d</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">dict</span></code></a></span></dt><dd><p>Dictionary of eigenvalues, eigenvectors (optional), and associated
-information. Must contain key ‘Eigenvalues’ (np.ndarray). Optional keys
-include ‘Eigenvectors’ (np.ndarray) and various metadata fields.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#OSError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSError</span></code></a></dt><dd><p>If file is not writable.</p>
-</dd>
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If ‘Eigenvalues’ key is missing from dictionary.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p></li>
-<li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lapy.io.write_vfunc">
-<span class="sig-prename descclassname"><span class="pre">lapy.io.</span></span><span class="sig-name descname"><span class="pre">write_vfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vfunc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/Deep-MI/LaPy/blob/main/lapy/io.py#L286-L310"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lapy.io.write_vfunc" title="Link to this definition">¶</a></dt>
-<dd><p>Save vertex function in PSOL txt file.</p>
-<p>First line “Solution:”, “,” separated values inside ()</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Filename to save to.</p>
-</dd>
-<dt><strong>vfunc</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></a></span></dt><dd><p>Array of vfunc parameters, shape (n_vertices,).</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#OSError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSError</span></code></a></dt><dd><p>If file is not writable.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p></li>
-<li><p><strong>vfunc</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)">tuple</a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>ndarray</em></a>, <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)">int</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -413,23 +414,23 @@ include ‘Eigenvectors’ (np.ndarray) and various metadata fields.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="lapy.shapedna.html">
+          <a class="next-page" href="lapy.remesh.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">lapy.shapedna</div>
+                <div class="title">lapy.remesh</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../lapy.modules.html">
+          <a class="prev-page" href="lapy.conformal.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Modules</div>
+                <div class="title">lapy.conformal</div>
                 
               </div>
             </a>
@@ -470,11 +471,10 @@ include ‘Eigenvectors’ (np.ndarray) and various metadata fields.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">lapy.io</a><ul>
-<li><a class="reference internal" href="#lapy.io.read_ev"><code class="docutils literal notranslate"><span class="pre">read_ev()</span></code></a></li>
-<li><a class="reference internal" href="#lapy.io.read_vfunc"><code class="docutils literal notranslate"><span class="pre">read_vfunc()</span></code></a></li>
-<li><a class="reference internal" href="#lapy.io.write_ev"><code class="docutils literal notranslate"><span class="pre">write_ev()</span></code></a></li>
-<li><a class="reference internal" href="#lapy.io.write_vfunc"><code class="docutils literal notranslate"><span class="pre">write_vfunc()</span></code></a></li>
+<li><a class="reference internal" href="#">lapy.intersect</a><ul>
+<li><a class="reference internal" href="#lapy.intersect.self_intersections"><code class="docutils literal notranslate"><span class="pre">self_intersections()</span></code></a></li>
+<li><a class="reference internal" href="#lapy.intersect.triangles_intersect"><code class="docutils literal notranslate"><span class="pre">triangles_intersect()</span></code></a></li>
+<li><a class="reference internal" href="#lapy.intersect.undo_intersections"><code class="docutils literal notranslate"><span class="pre">undo_intersections()</span></code></a></li>
 </ul>
 </li>
 </ul>
