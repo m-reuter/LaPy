@@ -57,3 +57,28 @@ jobs:
           verbose: true # optional (default = false)
           token: ${{ secrets.CODECOV_TOKEN }}
           #slug: deep-mi/LaPy
+
+  pytest-min:
+    # the lowest versions of the dependencies that pyproject.toml allows
+    timeout-minutes: 30
+    name: ubuntu - py3.11 - minimum versions
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install package with minimum dependencies
+        run: |
+          python -m pip install --progress-bar off uv
+          uv pip install --system pytest pytest-timeout
+          uv pip install --system --resolution lowest-direct .
+      - name: Display system information
+        run: lapy-sys_info --developer
+      - name: Run pytest
+        run: pytest lapy

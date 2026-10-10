@@ -40,11 +40,11 @@ classifiers = [
     'Intended Audience :: Science/Research',
 ]
 dependencies = [
-    'nibabel',
-    'numpy>=1.21',
-    'plotly',
-    'psutil',
-    'scipy!=1.13.0',
+    'nibabel>=4.0',
+    'numpy>=1.23.2',
+    'plotly>=5.0',
+    'psutil>=5.9',
+    'scipy>=1.9.2,!=1.13.0',
 ]
 
 [project.optional-dependencies]
