@@ -26,6 +26,8 @@ Key design goals:
 - `heat`: heat kernel and diffusion utilities, geodesics via heat method.
 - `shapedna`: compute ShapeDNA (Laplace spectra) for shape descriptors.
 - `conformal`: conformal mapping methods for genus-0 surfaces.
+- `intersect`: self-intersection tests for triangle meshes, and undoing vertex moves that create intersections.
+- `remesh`: isotropic remeshing to near-equilateral triangles that keeps the topology, and closest points on a surface.
 - `io`: read/write vertex functions and eigenvector files.
 - `plot`: lightweight Plotly wrappers for interactive visualization.
 
